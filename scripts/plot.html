@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DuckDB Parser Benchmark</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Syne:wght@400;700;800&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --border: #1e1e2e;
+    --peg: #f97316;
+    --postgres: #38bdf8;
+    --text: #e2e8f0;
+    --muted: #475569;
+    --grid: #1a1a2e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 24px;
+    gap: 48px;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 10%, rgba(249,115,22,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 80% 80%, rgba(56,189,248,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .content { position: relative; z-index: 1; width: 100%; max-width: 860px; }
+
+  header {
+    width: 100%;
+    max-width: 860px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  h1 span.peg   { color: var(--peg); }
+  h1 span.pg    { color: var(--postgres); }
+
+  .subtitle {
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 28px;
+    margin-top: 20px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  /* Chart card */
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    width: 100%;
+    max-width: 860px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .chart-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 24px;
+  }
+
+  svg text { font-family: 'JetBrains Mono', monospace; }
+
+  .axis path, .axis line {
+    stroke: var(--border);
+    stroke-width: 1;
+  }
+
+  .grid line {
+    stroke: var(--grid);
+    stroke-dasharray: 3 4;
+  }
+
+  .grid path { stroke: none; }
+
+  /* Tooltip */
+  .tooltip {
+    position: fixed;
+    background: #1a1a2e;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 12px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 100;
+    white-space: nowrap;
+  }
+
+  .tooltip .t-label { color: var(--muted); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+  .tooltip .t-val   { font-size: 15px; font-weight: 600; }
+
+  /* Stats row */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    width: 100%;
+    max-width: 860px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .stat-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .stat-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+
+<header class="content">
+  <div class="eyebrow">DuckDB · Parser Benchmark</div>
+  <h1>
+    <span class="peg">PEG</span> vs <span class="pg">PostgreSQL</span><br>Parser Overhead
+  </h1>
+  <p class="subtitle">
+    Parsing time as % of total query latency · TPC-H queries averaged · multiple scale factors
+  </p>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--peg)"></div> PEG parser</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--postgres)"></div> PostgreSQL parser</div>
+  </div>
+</header>
+
+<div class="chart-card content">
+  <div class="chart-title">Avg. parser time / total latency (%)</div>
+  <div id="chart"></div>
+</div>
+
+<div class="stats" id="stats"></div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+const raw = [
+  { parser: "peg",      avg: 13.833888, sf: 0.1 },
+  { parser: "postgres", avg:  0.184955, sf: 0.1 },
+  { parser: "peg",      avg:  6.263465, sf: 1.0 },
+  { parser: "postgres", avg:  0.061704, sf: 1.0 },
+  { parser: "peg",      avg:  1.265824, sf: 10.0 },
+  { parser: "postgres", avg:  0.010073, sf: 10.0 },
+  { parser: "postgres", avg:  0.003649, sf: 30.0 },
+  { parser: "peg",      avg:  0.487401, sf: 30.0 },
+];
+
+const sfs = [...new Set(raw.map(d => d.sf))].sort((a,b)=>a-b);
+const COLOR = { peg: "#f97316", postgres: "#38bdf8" };
+
+// ── Line chart ──────────────────────────────────────────────────────────────
+const margin = { top: 16, right: 24, bottom: 48, left: 60 };
+const W = Math.min(860, window.innerWidth - 80);
+const H = 340;
+const iW = W - margin.left - margin.right;
+const iH = H - margin.top  - margin.bottom;
+
+const svg = d3.select("#chart")
+  .append("svg")
+  .attr("width", W).attr("height", H)
+  .append("g")
+  .attr("transform", `translate(${margin.left},${margin.top})`);
+
+const x = d3.scaleLog().domain([0.1, 30]).range([0, iW]);
+const y = d3.scaleLinear().domain([0, 15]).range([iH, 0]).nice();
+
+// Grid
+svg.append("g").attr("class","grid")
+  .call(d3.axisLeft(y).tickSize(-iW).tickFormat(""));
+
+// Axes
+const xTicks = [0.1, 1, 10, 30];
+svg.append("g").attr("class","axis").attr("transform",`translate(0,${iH})`)
+  .call(d3.axisBottom(x).tickValues(xTicks).tickFormat(d => `SF ${d}`))
+  .selectAll("text").attr("fill","#64748b").attr("font-size","11px");
+
+svg.append("g").attr("class","axis")
+  .call(d3.axisLeft(y).ticks(5).tickFormat(d => d + "%"))
+  .selectAll("text").attr("fill","#64748b").attr("font-size","11px");
+
+// Axis labels
+svg.append("text")
+  .attr("x", iW/2).attr("y", iH + 42)
+  .attr("text-anchor","middle").attr("fill","#475569").attr("font-size","11px")
+  .text("Scale Factor (log scale)");
+
+svg.append("text")
+  .attr("transform","rotate(-90)")
+  .attr("x", -iH/2).attr("y", -48)
+  .attr("text-anchor","middle").attr("fill","#475569").attr("font-size","11px")
+  .text("Parser overhead (% of latency)");
+
+// Lines + dots
+const tooltip = document.getElementById("tooltip");
+
+["peg","postgres"].forEach(parser => {
+  const data = raw.filter(d => d.parser === parser).sort((a,b)=>a.sf-b.sf);
+  const col = COLOR[parser];
+
+  // Area fill
+  const area = d3.area()
+    .x(d => x(d.sf))
+    .y0(iH)
+    .y1(d => y(d.avg))
+    .curve(d3.curveMonotoneX);
+
+  svg.append("path")
+    .datum(data)
+    .attr("d", area)
+    .attr("fill", col)
+    .attr("opacity", 0.07);
+
+  // Line
+  const line = d3.line()
+    .x(d => x(d.sf))
+    .y(d => y(d.avg))
+    .curve(d3.curveMonotoneX);
+
+  svg.append("path")
+    .datum(data)
+    .attr("d", line)
+    .attr("fill","none")
+    .attr("stroke", col)
+    .attr("stroke-width", 2.5)
+    .attr("stroke-linecap","round");
+
+  // Dots
+  svg.selectAll(`.dot-${parser}`)
+    .data(data).enter()
+    .append("circle")
+    .attr("class", `dot-${parser}`)
+    .attr("cx", d => x(d.sf))
+    .attr("cy", d => y(d.avg))
+    .attr("r", 5)
+    .attr("fill", col)
+    .attr("stroke", "#0a0a0f")
+    .attr("stroke-width", 2)
+    .style("cursor","pointer")
+    .on("mousemove", (event, d) => {
+      tooltip.style.opacity = 1;
+      tooltip.style.left = (event.clientX + 14) + "px";
+      tooltip.style.top  = (event.clientY - 40) + "px";
+      tooltip.innerHTML = `
+        <div class="t-label">${parser.toUpperCase()} · SF ${d.sf}</div>
+        <div class="t-val" style="color:${col}">${d.avg.toFixed(3)}%</div>
+      `;
+    })
+    .on("mouseleave", () => { tooltip.style.opacity = 0; });
+
+  // Value labels on dots
+  svg.selectAll(`.lbl-${parser}`)
+    .data(data).enter()
+    .append("text")
+    .attr("x", d => x(d.sf))
+    .attr("y", d => y(d.avg) - 10)
+    .attr("text-anchor","middle")
+    .attr("fill", col)
+    .attr("font-size","10px")
+    .attr("opacity", 0.85)
+    .text(d => d.avg.toFixed(2) + "%");
+});
+
+// ── Stat cards ──────────────────────────────────────────────────────────────
+const statsEl = document.getElementById("stats");
+
+const pegSF1   = raw.find(d => d.parser==="peg"      && d.sf===1.0);
+const pgSF1    = raw.find(d => d.parser==="postgres"  && d.sf===1.0);
+const pegSF01  = raw.find(d => d.parser==="peg"      && d.sf===0.1);
+const ratio01  = pegSF01.avg / raw.find(d=>d.parser==="postgres"&&d.sf===0.1).avg;
+
+const cards = [
+  { label: "PEG overhead @ SF 1",      val: pegSF1.avg.toFixed(2) + "%",  sub: "of total query latency",        col: COLOR.peg },
+  { label: "Postgres overhead @ SF 1", val: pgSF1.avg.toFixed(3)  + "%",  sub: "of total query latency",        col: COLOR.postgres },
+  { label: "PEG / Postgres ratio",     val: (pegSF1.avg/pgSF1.avg).toFixed(0) + "×", sub: "more expensive at SF 1", col: "#a78bfa" },
+  { label: "PEG overhead @ SF 0.1",    val: pegSF01.avg.toFixed(1)+ "%",  sub: "highest observed overhead",     col: COLOR.peg },
+];
+
+cards.forEach(c => {
+  statsEl.innerHTML += `
+    <div class="stat-card">
+      <div class="stat-label">${c.label}</div>
+      <div class="stat-val" style="color:${c.col}">${c.val}</div>
+      <div class="stat-sub">${c.sub}</div>
+    </div>`;
+});
+</script>
+</body>
+</html>

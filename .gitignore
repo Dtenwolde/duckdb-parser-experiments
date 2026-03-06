@@ -1,0 +1,20 @@
+# Generated TPC-H databases (reproduced by benchmark.sh)
+data/*.duckdb
+data/*.duckdb.wal
+
+# Benchmark results (commit selectively if you want to share)
+results/*.duckdb
+results/*.duckdb.wal
+results/*.json
+results/*.csv
+
+# DuckDB build artifacts (managed by submodule)
+duckdb/build/
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.venv/
