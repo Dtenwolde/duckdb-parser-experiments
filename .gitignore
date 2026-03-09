@@ -8,6 +8,8 @@ results/*.duckdb.wal
 results/*.json
 results/*.csv
 
+*.gz
+
 # DuckDB build artifacts (managed by submodule)
 duckdb/build/
 
