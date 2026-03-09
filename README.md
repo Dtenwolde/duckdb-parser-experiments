@@ -9,10 +9,13 @@ duckdb-parser-experiments/
 ├── duckdb/                  # Git submodule — DuckDB source
 ├── scripts/
 │   ├── benchmark_parser.sh  # Main benchmark runner
+│   ├── bench_version.sh     # Checkout, build, and benchmark a specific branch/commit
 │   └── plot.html            # Interactive results visualisation
+├── builds/                  # Cached binaries built by bench_version.sh (gitignored)
 ├── data/                    # Generated TPC-H/TPC-DS databases (gitignored)
 ├── results/                 # benchmark_results.duckdb, errors.log (gitignored by default)
 ├── analysis/                # Plot scripts and ad-hoc SQL queries
+│   └── compare_versions.py  # Per-query improvement plot between two versions
 └── README.md
 ```
 
@@ -72,6 +75,42 @@ VERSION=baseline ./scripts/benchmark_parser.sh
 
 Any queries that fail (e.g. unsupported syntax in the PEG parser) are skipped and their errors are written to `results/errors.log`.
 
+### 4a. Compare two branches or commits
+
+`scripts/bench_version.sh` automates checking out a specific branch or commit,
+building it, and running the benchmark — all results land in the same
+`benchmark_results.duckdb`, tagged by version label, so they can be compared directly.
+
+```bash
+# Benchmark a branch with an explicit label
+./scripts/bench_version.sh main baseline
+./scripts/bench_version.sh my-caching-branch peg-caching
+
+# Or use a commit hash (label defaults to the short hash)
+./scripts/bench_version.sh abc1234
+
+# Env vars are forwarded to benchmark_parser.sh
+SFS="1 10" RUNS=10 ./scripts/bench_version.sh my-caching-branch peg-caching
+```
+
+The duckdb submodule is restored to its original commit after each run.
+Compiled binaries are cached under `builds/<label>/duckdb`; re-running the
+same label skips the build step.
+
+Then compare the two versions:
+
+```bash
+# List versions available in the DB
+python analysis/compare_versions.py
+
+# Plot per-query improvement and print a summary table
+python analysis/compare_versions.py baseline peg-caching
+python analysis/compare_versions.py baseline peg-caching results/benchmark_results.duckdb
+```
+
+The plot is saved to `results/plots/compare_<baseline>_vs_<new>.png`.
+Green bars = faster in the new version; red bars = regression.
+
 ### 5. Generate plots
 
 ```bash
@@ -105,6 +144,7 @@ query-level plots cap it at the most informative subset to stay readable.
 | `plot_per_query` | all 22 queries, sorted by PEG overhead | top 20 by PEG overhead |
 | `plot_heatmap` | all 22 queries × all SFs | top 20 by PEG overhead × available SFs |
 | `plot_raw_timings` | all 22 queries × all SFs (total latency + parser time) | top 20 by median latency × available SFs |
+| `compare_versions` | per-query improvement % between two VERSION labels | same |
 
 ### 6. Profile the PEG parser with samply
 

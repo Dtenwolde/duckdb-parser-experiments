@@ -2,7 +2,9 @@
 Plot: Average parser overhead (%) by parser and scale factor — TPC-H and TPC-DS side by side.
 
 Usage:
-    python analysis/plot_overview.py [results/benchmark_results.duckdb]
+    python analysis/plot_overview.py [results/benchmark_results.duckdb] [version]
+
+    version – git short-hash or label (default: most recent in DB)
 """
 import sys
 import os
@@ -10,14 +12,20 @@ import duckdb
 import matplotlib.pyplot as plt
 
 DB  = sys.argv[1] if len(sys.argv) > 1 else "results/benchmark_results.duckdb"
-OUT = "results/plots/overview.png"
 
 con = duckdb.connect(DB, read_only=True)
-df = con.execute("""
+
+VERSION = sys.argv[2] if len(sys.argv) > 2 else con.execute(
+    "SELECT version FROM results WHERE version IS NOT NULL ORDER BY run_at DESC LIMIT 1"
+).fetchone()[0]
+
+OUT = f"results/plots/overview_{VERSION}.png"
+
+df = con.execute(f"""
     SELECT benchmark, parser, printf('SF %g', scale_factor) AS sf_label, scale_factor,
            round(avg(relative_pct), 4) AS avg_pct
     FROM results
-    WHERE scale_factor > 0
+    WHERE scale_factor > 0 AND version = '{VERSION}'
     GROUP BY ALL
     ORDER BY benchmark, scale_factor, parser
 """).df()
@@ -66,7 +74,7 @@ for ax, bm in zip(axes, benchmarks):
     ax.set_xticklabels(sf_order)
     ax.set_xlabel("Scale Factor", color=MUTED, fontsize=10)
     ax.set_ylabel("Parser overhead (% of latency)", color=MUTED, fontsize=10)
-    ax.set_title(f"Avg. parser time / total latency  ·  {bm.upper()}", color=TEXT, fontsize=13, pad=14)
+    ax.set_title(f"Avg. parser time / total latency  ·  {bm.upper()}  ·  {VERSION}", color=TEXT, fontsize=13, pad=14)
     ax.tick_params(colors=MUTED)
     for spine in ax.spines.values():
         spine.set_edgecolor("#1e1e2e")

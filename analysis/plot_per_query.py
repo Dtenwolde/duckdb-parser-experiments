@@ -3,9 +3,10 @@ Plot: PEG parser overhead per query, sorted highest to lowest.
 TPC-H shows all 22 queries; TPC-DS shows the top TOP_N queries by PEG overhead.
 
 Usage:
-    python analysis/plot_per_query.py [results/benchmark_results.duckdb] [scale_factor]
+    python analysis/plot_per_query.py [results/benchmark_results.duckdb] [scale_factor] [version]
 
     scale_factor – default: 1.0
+    version      – git short-hash or label (default: most recent in DB)
 """
 import sys
 import os
@@ -14,26 +15,31 @@ import matplotlib.pyplot as plt
 
 DB  = sys.argv[1] if len(sys.argv) > 1 else "results/benchmark_results.duckdb"
 SF  = float(sys.argv[2]) if len(sys.argv) > 2 else 1.0
-OUT = "results/plots/per_query_peg.png"
 
 TOP_N_TPCDS = 20
 
 con = duckdb.connect(DB, read_only=True)
 
-df_tpch = con.execute("""
+VERSION = sys.argv[3] if len(sys.argv) > 3 else con.execute(
+    "SELECT version FROM results WHERE version IS NOT NULL ORDER BY run_at DESC LIMIT 1"
+).fetchone()[0]
+
+OUT = f"results/plots/per_query_peg_{VERSION}.png"
+
+df_tpch = con.execute(f"""
     SELECT query_nr,
            round(median(relative_pct), 3) AS median_peg_pct
     FROM results
-    WHERE parser = 'peg' AND scale_factor = ? AND benchmark = 'tpch'
+    WHERE parser = 'peg' AND scale_factor = ? AND benchmark = 'tpch' AND version = '{VERSION}'
     GROUP BY query_nr
     ORDER BY median_peg_pct DESC
 """, [SF]).df()
 
-df_tpcds = con.execute("""
+df_tpcds = con.execute(f"""
     SELECT query_nr,
            round(median(relative_pct), 3) AS median_peg_pct
     FROM results
-    WHERE parser = 'peg' AND scale_factor = ? AND benchmark = 'tpcds'
+    WHERE parser = 'peg' AND scale_factor = ? AND benchmark = 'tpcds' AND version = '{VERSION}'
     GROUP BY query_nr
     ORDER BY median_peg_pct DESC
     LIMIT ?
@@ -48,8 +54,8 @@ MUTED     = "#475569"
 TEXT      = "#e2e8f0"
 
 panels = [
-    (df_tpch,  f"TPC-H  ·  SF {SF:g}  ·  all {len(df_tpch)} queries"),
-    (df_tpcds, f"TPC-DS  ·  SF {SF:g}  ·  top {TOP_N_TPCDS} by PEG overhead"),
+    (df_tpch,  f"TPC-H  ·  SF {SF:g}  ·  all {len(df_tpch)} queries  ·  {VERSION}"),
+    (df_tpcds, f"TPC-DS  ·  SF {SF:g}  ·  top {TOP_N_TPCDS} by PEG overhead  ·  {VERSION}"),
 ]
 # Only include panels that have data
 panels = [(d, t) for d, t in panels if not d.empty]

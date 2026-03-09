@@ -3,7 +3,9 @@ Plot: Heatmap of median PEG parser overhead (%) per query × scale factor.
 TPC-H shows all 22 queries; TPC-DS shows the top TOP_N queries by median PEG overhead.
 
 Usage:
-    python analysis/plot_heatmap.py [results/benchmark_results.duckdb]
+    python analysis/plot_heatmap.py [results/benchmark_results.duckdb] [version]
+
+    version – git short-hash or label (default: most recent in DB)
 """
 import sys
 import os
@@ -12,28 +14,33 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
 DB  = sys.argv[1] if len(sys.argv) > 1 else "results/benchmark_results.duckdb"
-OUT = "results/plots/heatmap_peg_overhead.png"
 
 TOP_N_TPCDS = 20
 
 con = duckdb.connect(DB, read_only=True)
 
-df_tpch = con.execute("""
+VERSION = sys.argv[2] if len(sys.argv) > 2 else con.execute(
+    "SELECT version FROM results WHERE version IS NOT NULL ORDER BY run_at DESC LIMIT 1"
+).fetchone()[0]
+
+OUT = f"results/plots/heatmap_peg_overhead_{VERSION}.png"
+
+df_tpch = con.execute(f"""
     SELECT printf('SF %g', scale_factor) AS sf_label, scale_factor,
            query_nr,
            round(median(relative_pct), 3) AS median_peg_pct
     FROM results
-    WHERE parser = 'peg' AND benchmark = 'tpch'
+    WHERE parser = 'peg' AND benchmark = 'tpch' AND version = '{VERSION}'
     GROUP BY scale_factor, query_nr
     ORDER BY scale_factor, query_nr
 """).df()
 
 # Pick the top TOP_N query numbers by their overall median overhead, then fetch all SFs for those
-df_tpcds = con.execute("""
+df_tpcds = con.execute(f"""
     WITH top_queries AS (
         SELECT query_nr
         FROM results
-        WHERE parser = 'peg' AND benchmark = 'tpcds'
+        WHERE parser = 'peg' AND benchmark = 'tpcds' AND version = '{VERSION}'
         GROUP BY query_nr
         ORDER BY median(relative_pct) DESC
         LIMIT ?
@@ -42,7 +49,7 @@ df_tpcds = con.execute("""
            query_nr,
            round(median(relative_pct), 3) AS median_peg_pct
     FROM results
-    WHERE parser = 'peg' AND benchmark = 'tpcds'
+    WHERE parser = 'peg' AND benchmark = 'tpcds' AND version = '{VERSION}'
       AND query_nr IN (SELECT query_nr FROM top_queries)
     GROUP BY scale_factor, query_nr
     ORDER BY scale_factor, query_nr
@@ -111,7 +118,7 @@ for ax, (title, pivot) in zip(axes, panels):
     plt.setp(cbar.ax.yaxis.get_ticklabels(), color=MUTED)
     cbar.outline.set_edgecolor("#1e1e2e")
 
-    ax.set_title(f"PEG overhead per query × SF  ·  {title}", color=TEXT, fontsize=12, pad=14)
+    ax.set_title(f"PEG overhead per query × SF  ·  {title}  ·  {VERSION}", color=TEXT, fontsize=12, pad=14)
     ax.spines[:].set_edgecolor("#1e1e2e")
 
 os.makedirs("results/plots", exist_ok=True)

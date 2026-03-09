@@ -11,6 +11,9 @@ results/*.csv
 # DuckDB build artifacts (managed by submodule)
 duckdb/build/
 
+# Versioned benchmark binaries (built by bench_version.sh)
+builds/
+
 # macOS
 .DS_Store
 

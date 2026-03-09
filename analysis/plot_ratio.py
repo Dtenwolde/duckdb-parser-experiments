@@ -2,7 +2,9 @@
 Plot: PEG / PostgreSQL parser overhead ratio by scale factor — TPC-H and TPC-DS side by side.
 
 Usage:
-    python analysis/plot_ratio.py [results/benchmark_results.duckdb]
+    python analysis/plot_ratio.py [results/benchmark_results.duckdb] [version]
+
+    version – git short-hash or label (default: most recent in DB)
 """
 import sys
 import os
@@ -10,13 +12,20 @@ import duckdb
 import matplotlib.pyplot as plt
 
 DB  = sys.argv[1] if len(sys.argv) > 1 else "results/benchmark_results.duckdb"
-OUT = "results/plots/peg_postgres_ratio.png"
 
 con = duckdb.connect(DB, read_only=True)
-df = con.execute("""
+
+VERSION = sys.argv[2] if len(sys.argv) > 2 else con.execute(
+    "SELECT version FROM results WHERE version IS NOT NULL ORDER BY run_at DESC LIMIT 1"
+).fetchone()[0]
+
+OUT = f"results/plots/peg_postgres_ratio_{VERSION}.png"
+
+df = con.execute(f"""
     WITH agg AS (
         SELECT benchmark, scale_factor, parser, median(relative_pct) AS med
         FROM results
+        WHERE version = '{VERSION}'
         GROUP BY benchmark, scale_factor, parser
     )
     SELECT
@@ -61,7 +70,7 @@ for col, bm in enumerate(benchmarks):
         ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 1,
                 f"{val:.0f}×", ha="center", fontsize=9, color=RATIO_COLOR)
     ax.set_ylabel("Ratio (PEG / Postgres overhead)", color=MUTED, fontsize=10)
-    ax.set_title(f"PEG vs Postgres overhead ratio  ·  {bm.upper()}", color=TEXT, fontsize=12, pad=12)
+    ax.set_title(f"PEG vs Postgres overhead ratio  ·  {bm.upper()}  ·  {VERSION}", color=TEXT, fontsize=12, pad=12)
     ax.tick_params(colors=MUTED)
     for spine in ax.spines.values():
         spine.set_edgecolor("#1e1e2e")
