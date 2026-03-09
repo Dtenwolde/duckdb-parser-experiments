@@ -44,11 +44,16 @@ cd ..
 
 ```bash
 cd duckdb
+# Release build (benchmarking)
 DUCKDB_EXTENSIONS="tpch;tpcds;json;autocomplete" make -j$(nproc)
+
+# RelWithDebInfo build (profiling with samply — same speed, full symbols)
+DUCKDB_EXTENSIONS="tpch;tpcds;json;autocomplete" BUILD_TYPE=reldebug make -j$(nproc)
 cd ..
 ```
 
-The benchmark script expects the binary at `duckdb/build/release/duckdb`.
+The benchmark script expects `duckdb/build/release/duckdb`; the profiling script
+prefers `duckdb/build/reldebug/duckdb` and falls back to release with a warning.
 
 ### 4. Run benchmarks
 
@@ -101,7 +106,26 @@ query-level plots cap it at the most informative subset to stay readable.
 | `plot_heatmap` | all 22 queries × all SFs | top 20 by PEG overhead × available SFs |
 | `plot_raw_timings` | all 22 queries × all SFs (total latency + parser time) | top 20 by median latency × available SFs |
 
-### 6. Explore results
+### 6. Profile the PEG parser with samply
+
+`scripts/profile_peg.sh` finds the query with the highest PEG overhead at a given
+scale factor and runs it many times under [samply](https://github.com/mstange/samply),
+then opens the result in the Firefox Profiler.
+
+```bash
+# Auto-pick worst TPC-H query at SF=0.1, 100 000 iterations (~0.5s)
+./scripts/profile_peg.sh
+
+# Specific query / benchmark / SF / iteration count
+./scripts/profile_peg.sh 6                      # TPC-H Q6
+./scripts/profile_peg.sh 96 tpcds 0.1           # TPC-DS Q96
+./scripts/profile_peg.sh 6 tpch 0.1 500000      # more iterations for deeper traces
+```
+
+The reldebug build is used automatically when present so stack frames have symbol
+names.  A release build works but may show unhelpful addresses.
+
+### 7. Explore results
 
 ```bash
 # Quick summary grouped by benchmark and scale factor
