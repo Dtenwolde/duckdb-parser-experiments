@@ -11,7 +11,7 @@ RESULTS_DB="${RESULTS_DB:-$REPO_ROOT/results/benchmark_results.duckdb}"
 DATA_DIR="${DATA_DIR:-$REPO_ROOT/data}"
 PROFILING_JSON="$REPO_ROOT/results/profiling.json"
 ERROR_LOG="$REPO_ROOT/results/errors.log"
-PARSERS=("postgres" "peg")
+IFS=' ' read -r -a PARSERS <<< "${PARSERS_LIST:-postgres peg}"
 RUNS="${RUNS:-5}"
 VERSION="${VERSION:-$(git -C "$REPO_ROOT/duckdb" rev-parse --short HEAD 2>/dev/null || echo "unknown")}"
 
@@ -71,17 +71,20 @@ run_benchmark() {
         DONE=$((DONE + 1))
         log "SF=${SCALE_FACTOR} ${BENCHMARK} [$DONE/$TOTAL] Q${QUERY_NR} | parser=${PARSER} | run=${RUN}/${RUNS}"
 
-        if [[ "$PARSER" == "peg" ]]; then
-          PARSER_TOGGLE="CALL enable_peg_parser();"
+        TOGGLE_ARGS=()
+        if [[ "${PEG_DEFAULT:-0}" == "1" ]]; then
+          : # PEG is the default parser; no toggle call exists
+        elif [[ "$PARSER" == "peg" ]]; then
+          TOGGLE_ARGS=(-cmd "CALL enable_peg_parser();")
         else
-          PARSER_TOGGLE="CALL disable_peg_parser();"
+          TOGGLE_ARGS=(-cmd "CALL disable_peg_parser();")
         fi
 
         rm -f "$PROFILING_JSON"
 
         if ! echo "FROM query(getvariable('bench_query'));" |
           "$DUCKDB" -unsigned "$BENCH_DB" \
-            -cmd "$PARSER_TOGGLE" \
+            "${TOGGLE_ARGS[@]}" \
             -cmd "SET enable_profiling = 'json';" \
             -cmd "SET profiling_mode = 'detailed';" \
             -cmd "SET profile_output = '${PROFILING_JSON}';" \

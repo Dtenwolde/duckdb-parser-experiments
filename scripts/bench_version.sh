@@ -50,6 +50,10 @@ trap restore EXIT
 # ── Checkout target ────────────────────────────────────────────────────────────
 log "Fetching origin in duckdb submodule ..."
 git -C "$DUCKDB_DIR" fetch --quiet origin
+# Also try fetching the target from upstream (e.g. official release tags)
+git -C "$DUCKDB_DIR" fetch --quiet upstream \
+  "refs/tags/${TARGET}:refs/tags/${TARGET}" 2>/dev/null || \
+git -C "$DUCKDB_DIR" fetch --quiet upstream "${TARGET}" 2>/dev/null || true
 
 log "Checking out '$TARGET' ..."
 git -C "$DUCKDB_DIR" checkout --quiet "$TARGET"
