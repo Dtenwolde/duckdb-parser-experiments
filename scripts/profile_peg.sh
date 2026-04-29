@@ -8,17 +8,18 @@
 #   cd duckdb && DUCKDB_EXTENSIONS="tpch;tpcds;json;autocomplete" make reldebug && cd ..
 #
 # Usage:
-#   ./scripts/profile_peg.sh [query_nr] [benchmark] [scale_factor] [iterations]
+#   ./scripts/profile_peg.sh [query_nr] [benchmark] [scale_factor] [duration_s]
 #
 #   query_nr   – TPC-H/DS query number (default: highest PEG overhead at given SF)
 #   benchmark  – tpch | tpcds  (default: tpch)
 #   scale_factor – (default: 0.1)
-#   iterations – number of times to repeat the query (default: 100000)
+#   duration_s – seconds to run before stopping (default: 10)
 #
 # Examples:
 #   ./scripts/profile_peg.sh                       # auto-pick worst query
 #   ./scripts/profile_peg.sh 6                     # TPC-H Q6
 #   ./scripts/profile_peg.sh 96 tpcds 0.1          # TPC-DS Q96
+#   ./scripts/profile_peg.sh 6 tpch 0.1 30         # run for 30 seconds
 
 set -euo pipefail
 
@@ -45,7 +46,7 @@ DATA_DIR="${DATA_DIR:-$REPO_ROOT/data}"
 QUERY_NR="${1:-}"
 BENCHMARK="${2:-tpch}"
 SF="${3:-0.1}"
-ITERATIONS="${4:-100000}"
+DURATION="${4:-10}"
 
 log() { echo "[$(date '+%H:%M:%S')] $*"; }
 
@@ -94,16 +95,12 @@ OVERHEAD_PCT=$("$DUCKDB" -unsigned -noheader -list "$RESULTS_DB" -c "
 
 log "Binary:     $DUCKDB"
 log "Query:      ${BENCHMARK} Q${QUERY_NR}  SF=${SF}"
-log "Iterations: ${ITERATIONS}"
+log "Duration:   ${DURATION}s"
 log "Approx latency per run: ${LATENCY_MS} ms  (PEG overhead: ${OVERHEAD_PCT}%)"
-if [[ "$LATENCY_MS" != "?" ]]; then
-  EST=$(python3 -c "print(f'~{${LATENCY_MS} * ${ITERATIONS} / 1000:.1f}s')" 2>/dev/null || echo "?")
-  log "Estimated total run time: ${EST}"
-fi
 log "Starting samply..."
 
 {
   echo "CALL enable_peg_parser();"
   echo "SET VARIABLE bench_query = (SELECT query FROM ${QUERY_FN}() WHERE query_nr = ${QUERY_NR});"
-  yes "FROM query(getvariable('bench_query'));" | head -n "$ITERATIONS"
-} | samply record "$DUCKDB" -unsigned "$BENCH_DB" > /dev/null
+  yes "FROM query(getvariable('bench_query'));"
+} | samply record timeout "${DURATION}s" "$DUCKDB" -unsigned "$BENCH_DB" > /dev/null
