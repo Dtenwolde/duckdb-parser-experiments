@@ -9,6 +9,7 @@ results/*.json
 results/*.csv
 
 *.gz
+.idea/
 
 # DuckDB build artifacts (managed by submodule)
 duckdb/build/
