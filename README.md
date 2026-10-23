@@ -4,20 +4,34 @@ Benchmarking the PEG parser against the PostgreSQL parser in DuckDB, across TPC-
 
 ## Repository structure
 
+This is the paper and artifact repository for the PEG parser paper (PVLDB Vol. 20 /
+VLDB 2027, research track). Parser experiments, the use-case extensions and the
+paper source live here together so that every number in the paper is reproducible
+from pinned submodule commits.
+
 ```
 duckdb-parser-experiments/
-├── duckdb/                  # Git submodule — DuckDB source
+├── duckdb/                  # Git submodule — upstream duckdb/duckdb (PEG parser)
+├── saneql/                  # Git submodule — SaneQL dialect extension (use case)
+├── duckpgq-extension/       # Git submodule — DuckPGQ SQL/PGQ extension (use case)
+├── paper/                   # LaTeX source, PVLDB template (see paper/TEMPLATE_README.md)
+│   ├── main.tex, sections/, references.bib, figures/
+│   └── Makefile             # make (latexmk), make clean
 ├── scripts/
-│   ├── benchmark_parser.sh  # Main benchmark runner
+│   ├── benchmark_parser.sh  # End-to-end parse-share benchmark (TPC-H, TPC-DS)
 │   ├── bench_version.sh     # Checkout, build, and benchmark a specific branch/commit
+│   ├── profile_peg.sh       # samply profiling of the worst query
 │   └── plot.html            # Interactive results visualisation
 ├── builds/                  # Cached binaries built by bench_version.sh (gitignored)
 ├── data/                    # Generated TPC-H/TPC-DS databases (gitignored)
-├── results/                 # benchmark_results.duckdb, errors.log (gitignored by default)
+├── results/                 # benchmark_results.duckdb, errors.log, plots/
 ├── analysis/                # Plot scripts and ad-hoc SQL queries
-│   └── compare_versions.py  # Per-query improvement plot between two versions
 └── README.md
 ```
+
+Clone everything with `git clone --recurse-submodules`, or run
+`git submodule update --init --recursive` afterwards. Build the paper with
+`make -C paper`.
 
 ## Reproducibility
 
@@ -219,14 +233,6 @@ CREATE TABLE results (
 
 ## Submodule remotes
 
-| Remote     | URL                                        |
-|------------|--------------------------------------------|
-| `origin`   | `git@github.com:dtenwolde/duckdb.git`      |
-| `upstream` | `git@github.com:duckdb/duckdb.git`         |
-
-To add `upstream` after cloning:
-
-```bash
-cd duckdb
-git remote add upstream https://github.com/duckdb/duckdb.git
-```
+The `duckdb` submodule has a single remote, `origin`, pointing at upstream
+`https://github.com/duckdb/duckdb.git`. The pinned commit is recorded in this
+repository; see "Reproducibility" above for how to move it.
