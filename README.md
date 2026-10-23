@@ -47,7 +47,7 @@ git submodule update --init --recursive
 
 ### 2. Submodule remote
 
-The submodule tracks upstream `duckdb/duckdb` (`https://github.com/duckdb/duckdb.git`)
+The submodule tracks upstream `duckdb/duckdb` (`git@github.com:duckdb/duckdb.git`)
 and is pinned to a specific commit.  To move it to the latest upstream `main`:
 
 ```bash
@@ -234,5 +234,5 @@ CREATE TABLE results (
 ## Submodule remotes
 
 The `duckdb` submodule has a single remote, `origin`, pointing at upstream
-`https://github.com/duckdb/duckdb.git`. The pinned commit is recorded in this
+`git@github.com:duckdb/duckdb.git`. The pinned commit is recorded in this
 repository; see "Reproducibility" above for how to move it.
