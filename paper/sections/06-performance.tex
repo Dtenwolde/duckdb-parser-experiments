@@ -1,0 +1,14 @@
+\section{Performance Engineering}
+\label{sec:performance}
+
+\todo{Performance is still improving; this section describes techniques and the
+evaluation reports their impact on whatever commit the final run uses. Techniques:
+FIRST sets, position-indexed memo table, arena allocation, cursor sharing
+(runtime left-factoring), generated transform schedules, second-token rejection,
+forwarding rules, per-step inlining. Heap-based frames vs the original recursive
+implementation: cost and benefit. Negative results worth reporting: frame counts do
+not predict time (lookahead cut steps 39\% but time 2.5\%); smaller structs were
+slower; per-step cost (~55 ns) in engine bookkeeping dominates, only ~4\% of matcher
+self time compares tokens; PEG allocates ~390 KB/query vs 27 KB for libpg\_query.
+Open direction: eliminate the intermediate capture tree with rollback-safe
+semantic actions.}

@@ -1,0 +1,83 @@
+% PVLDB Vol. 20 (VLDB 2027) submission. Template: vldbproceedings/VLDB-Template
+% (acmart.cls v2.19, pinned; see TEMPLATE_VERSION). Do not edit acmart.cls or pvldb.sty.
+%
+% Research track, regular research paper: up to 12 pages excluding references.
+% Rolling deadline on the 1st of each month (abstract by the 25th of the previous
+% month), final deadline 2027-03-01. Single-blind: names and affiliations required.
+
+\documentclass[sigconf, nonacm]{acmart}
+
+%%% do not modify the following VLDB block %%
+%%% VLDB block start %%%
+\usepackage{pvldb}
+%%% VLDB block end %%%
+
+\renewcommand\vldbdoi{XX.XX/XXX.XX}
+\renewcommand\vldbpages{XXX-XXX}
+\renewcommand\vldbavailabilityurl{https://github.com/dtenwolde/duckdb-parser-experiments}
+
+\usepackage{booktabs}
+\usepackage{balance}
+\usepackage{xcolor}
+\usepackage{listings}
+
+% Draft helpers. Remove before submission.
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\newcommand{\num}[1]{\textcolor{blue}{#1}} % numbers that must be re-measured on the final commit
+
+\lstdefinelanguage{peg}{
+  morekeywords={},
+  sensitive=true,
+  morecomment=[l]{\#},
+  morestring=[b]',
+}
+\lstset{basicstyle=\ttfamily\small, columns=fullflexible, keepspaces=true, breaklines=true}
+
+\begin{document}
+\title{Runtime-Extensible SQL Parsing: Design, Use Cases, and Lessons from a Production PEG Parser}
+% Working title. Alternatives: "A Runtime-Extensible Parser for a Production Database System".
+
+\author{Daniel ten Wolde}
+\affiliation{%
+  \institution{CWI}
+  \city{Amsterdam}
+  \country{The Netherlands}
+}
+\email{daniel.ten.wolde@cwi.nl}
+
+% \todo{co-authors and affiliations: confirm with supervisor and DuckDB Labs}
+
+\begin{abstract}
+\todo{Abstract. Claim: a runtime-extensible PEG parser replaces the compile-time
+yacc parser of a production DBMS, lets loadable extensions add syntax (SQL/PGQ) or
+whole dialects (SaneQL) without core changes, and does so with measured cost.
+No citations in the abstract. Must match the CMT abstract exactly.}
+\end{abstract}
+
+\maketitle
+
+%%% do not modify the following VLDB block %%
+%%% VLDB block start %%%
+\vldbtopmatter
+%%% VLDB block end %%%
+
+\input{sections/01-introduction}
+\input{sections/02-background}
+\input{sections/03-design}
+\input{sections/04-use-cases}
+\input{sections/05-error-diagnostics}
+\input{sections/06-performance}
+\input{sections/07-evaluation}
+\input{sections/08-lessons}
+\input{sections/09-related-work}
+\input{sections/10-conclusion}
+
+\begin{acks}
+\todo{Funding and acknowledgements.}
+\end{acks}
+
+\balance
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\end{document}

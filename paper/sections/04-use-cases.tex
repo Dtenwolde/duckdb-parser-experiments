@@ -1,0 +1,27 @@
+\section{Use Cases}
+\label{sec:usecases}
+
+\subsection{SQL/PGQ with DuckPGQ}
+\todo{Before: fork of DuckDB with patched libpg\_query grammar
+(cwida/duckdb-pgq)~\cite{tenwolde2023duckpgq}. After: GrammarChange API, loadable
+against upstream DuckDB. Lines of code before/after, maintenance cost (point
+release merges), what SQL/PGQ syntax needed (fused operator tokens, label
+expressions, quantifiers). Pitfall: wrapper rules without transform process.}
+
+\subsection{SaneQL as a Loadable Dialect}
+\todo{SaneQL~\cite{neumann2024saneql} as DialectExtension: \num{24} PEG rules,
+\num{753} C++ lines, no core changes, all 22 TPC-H queries pass. Table from
+saneql/PAPER\_NOTES.md: reference translator 5{,}028 lines (fair subset
+grammar+lexer+semana 2{,}641) vs 753. Framing: syntax is a thin replaceable layer
+when the semantic layer is shared. Report all caveats: \texttt{defun} not
+implemented (closed operator keyword set), host SQL lexical decisions leak into
+the dialect (reserved words, \texttt{||}, \texttt{a.desc()}), \texttt{let} as three
+rewrites, API gaps (AddTerminalRuleOverride, undocumented parse-tree shape).}
+
+\subsection{\todo{Third Use Case}}
+\todo{Options: (a) agentic SQL extensions as parse-time rewrites via GrammarChange:
+\texttt{INSPECT} (schema+stats+samples) and a \texttt{WITH OUTPUT} clause
+(max\_rows, truncate, total count); (b) another DialectExtension user
+(Spark dialect is private; GGSQL possible collaborator; pipe syntax~\cite{shute2024pipe}
+as a small dialect would be a clean third point). Decide by what can be built and
+measured in time.}

@@ -1,0 +1,14 @@
+\section{Syntax Error Diagnostics}
+\label{sec:errors}
+
+\todo{First version. PEGs report the farthest failure position; libpg\_query
+reports the yacc error token. Our approach: reuse the autocomplete suggestion walk
+to compute expected tokens at the failure point; verified "Did you mean" keyword
+corrections (one-token look-back for typos swallowed as aliases); verified
+single-token "Missing X" insertions; rule labels ("an expression", "a type").
+Design constraints: the suggestion pass must keep the packrat cache on or it goes
+exponential on unclosed nesting (\num{56 s} at depth 20); the re-parse must use
+BUILD\_PARSE\_RESULT mode (RECOGNIZE\_ONLY skips first-set pruning, \num{5x} work);
+one extra parse per error is the floor. Agent-mode JSON errors. Relate to
+PEG error reporting~\cite{maidl2016error} and recovery~\cite{medeiros2018recovery}.
+Evaluation in \autoref{sec:eval-errors}.}

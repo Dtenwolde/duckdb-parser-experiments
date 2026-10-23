@@ -1,0 +1,37 @@
+\section{Evaluation}
+\label{sec:eval}
+
+\todo{Setup: hardware, DuckDB commit (rolling; final numbers re-measured on one
+commit), libpg\_query baseline (v1.5.5 binary or legacy path in the same binary),
+interleaved runs, >=3 rounds, medians. Artifacts in this repository.}
+
+\subsection{Extensibility}
+\label{sec:eval-ext}
+\todo{Table: use case, rules added/replaced, C++ lines, core changes (0), tests
+passing. DuckPGQ before/after. SaneQL vs reference translator. Grammar construction
+time at load (matters because extensions rebuild the matcher graph).}
+
+\subsection{End-to-End Parse Share}
+\label{sec:eval-share}
+\todo{parser\_ms / latency\_ms on TPC-H, TPC-DS at SF 0, 0.1, 1 (scripts/benchmark\_parser.sh),
+ClickBench, and short queries (point lookups, where parse share is largest).
+PEG vs libpg\_query per query; heatmaps from analysis/.}
+
+\subsection{Parser Microbenchmarks}
+\label{sec:eval-micro}
+\todo{Phase breakdown per token: tokenizer (PEG 45 ns vs flex 65 ns), matcher
+(412 vs 27 ns), transformer (142 vs 44 ns). Ablation: impact of each technique
+measured by cherry-picking commits in branch order (cross-revision harness);
+heap-based vs stack-based execution.}
+
+\subsection{Syntax Error Quality}
+\label{sec:eval-errors}
+\todo{Mutation corpus: ~37k statements from the test suite, TPC-H and TPC-DS;
+score error position accuracy and hint hit rate for PEG, libpg\_query (v1.5.5)
+and PostgreSQL 17 (pglast). Report common-only and per-parser accepted subsets.
+Caveat: duplicated opening bracket is reported late by every parser.}
+
+\subsection{Bug-Fix Taxonomy}
+\label{sec:eval-bugs}
+\todo{~453 fix-like of ~2{,}134 parser commits since April 2025 (filter merge/format
+noise). Hypothesis: ordered-choice ordering bugs replace yacc conflict diagnostics.}

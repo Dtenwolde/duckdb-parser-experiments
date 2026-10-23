@@ -1,0 +1,30 @@
+\section{A Runtime-Extensible PEG Parser}
+\label{sec:design}
+
+\subsection{Grammar Representation}
+\todo{\texttt{.gram} files, \num{1{,}107} rules, keyword categories as bit flags,
+terminal rules vs non-terminal rules, macros (Parens/List).}
+
+\subsection{Matcher Engine}
+\todo{Matcher graph built from the grammar at load time; MatchStack; explicit
+heap-allocated frames instead of recursion. Why: embedded hosts (Python, R, WASM)
+with small or unknown stack sizes; deep nesting; the parser initially was
+recursive (stack-based) and was rewritten. Memoization (packrat) must replay
+side effects (token annotations) or caches diverge. Rollback boundary, not grammar
+node, is the unit of shareable state.}
+
+\subsection{Transformer}
+\todo{Parse tree to DuckDB AST; generated trampolines (\num{23{,}702} lines, generated)
+vs hand-written transforms (\num{9{,}778} lines); PEGRuleId.}
+
+\subsection{Extension Interfaces}
+\todo{GrammarChange API (AddRule, ReplaceRule, AddChoice, PrependChoice,
+terminal overrides) used by DuckPGQ; DialectExtension API
+(ApplyGrammarChanges, CreateTokenizer, CreateMatcherFactory) used by SaneQL;
+\texttt{SET current\_dialect}, \texttt{SET active\_grammar\_extensions};
+statement-scoped grammar changes as open problem (SaneQL \texttt{defun}).}
+
+\subsection{Equivalence Gate}
+\todo{Differential testing against libpg\_query: \num{90k} statement fingerprints +
+\num{10k} synthetic matcher graphs; how it caught ordered-choice ordering bugs that
+yacc would have reported as conflicts.}

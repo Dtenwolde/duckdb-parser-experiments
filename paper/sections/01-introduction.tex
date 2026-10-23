@@ -1,0 +1,20 @@
+\section{Introduction}
+\label{sec:intro}
+
+\todo{Motivation: SQL front ends are compile-time artifacts (yacc/bison); every new
+feature needs new syntax (SQL:2023 has 409 keywords~\cite{neumann2024saneql});
+extensions cannot add syntax without forking the grammar. The CIDR 2025 vision
+paper~\cite{muhleisen2025runtime} argued for runtime-extensible parsers. This paper
+reports on building one and shipping it as the default parser of DuckDB.}
+
+\todo{Contributions list:
+(1) design of a runtime-extensible PEG parser for a production DBMS:
+grammar changes and dialects applied at load time, heap-based execution
+for embedded hosts, differential equivalence gate against the legacy parser;
+(2) three use cases built on it: SQL/PGQ via DuckPGQ (GrammarChange API),
+SaneQL as a loadable dialect (DialectExtension API), and \todo{third: agentic
+extension (INSPECT / WITH OUTPUT) or another DialectExtension user};
+(3) a first version of PEG syntax-error diagnostics evaluated on a mutation corpus;
+(4) performance engineering techniques and their measured impact, including
+heap-based versus stack-based execution;
+(5) lessons learned from \num{~2{,}100} parser commits.}
