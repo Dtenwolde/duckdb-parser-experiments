@@ -8,16 +8,6 @@ cd "$SCRIPT_DIR"
 echo "==> Initialising submodule..."
 git submodule update --init --recursive
 
-echo "==> Adding upstream remote to submodule..."
-cd duckdb
-if ! git remote | grep -q upstream; then
-  git remote add upstream https://github.com/duckdb/duckdb.git
-  echo "    Added remote 'upstream' -> duckdb/duckdb"
-else
-  echo "    Remote 'upstream' already exists"
-fi
-cd ..
-
 echo "==> Building DuckDB (tpch + json extensions)..."
 cd duckdb
 DUCKDB_EXTENSIONS="tpch;json" make -j"$(nproc 2>/dev/null || sysctl -n hw.logicalcpu)"

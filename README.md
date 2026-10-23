@@ -31,16 +31,17 @@ cd duckdb-parser-experiments
 git submodule update --init --recursive
 ```
 
-### 2. Point submodule at the right remote
+### 2. Submodule remote
 
-The submodule tracks `dtenwolde/duckdb` by default.  To switch to upstream:
+The submodule tracks upstream `duckdb/duckdb` (`https://github.com/duckdb/duckdb.git`)
+and is pinned to a specific commit.  To move it to the latest upstream `main`:
 
 ```bash
 cd duckdb
-git remote set-url origin https://github.com/duckdb/duckdb.git
 git fetch origin
-git checkout main
+git checkout origin/main
 cd ..
+git add duckdb   # record the new pinned commit
 ```
 
 ### 3. Build DuckDB
