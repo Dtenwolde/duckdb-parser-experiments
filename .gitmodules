@@ -1,3 +1,9 @@
 [submodule "duckdb"]
 	path = duckdb
 	url = https://github.com/duckdb/duckdb.git
+[submodule "saneql"]
+	path = saneql
+	url = https://github.com/Dtenwolde/saneql.git
+[submodule "duckpgq-extension"]
+	path = duckpgq-extension
+	url = https://github.com/cwida/duckpgq-extension.git
