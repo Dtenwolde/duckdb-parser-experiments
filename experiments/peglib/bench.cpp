@@ -167,8 +167,8 @@ static std::unique_ptr<peg::parser> LoadPeglib(const std::string &grammar, bool 
 	if (!parser->load_grammar(grammar.data(), grammar.size())) {
 		throw std::runtime_error("cpp-peglib rejected the grammar:\n" + errors);
 	}
-	// parse errors are expected to be silent while benchmarking
-	parser->set_logger([](size_t, size_t, const std::string &, const std::string &) {});
+	// no logger while benchmarking: with one installed, cpp-peglib tracks expected tokens on every failed match
+	parser->set_logger(peg::Log());
 	if (packrat) {
 		parser->enable_packrat_parsing();
 	}

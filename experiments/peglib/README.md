@@ -42,6 +42,8 @@ so it is not DuckDB's fastest way to answer accept/reject.
   CSV has the median and the minimum per (input, variant).
 - **Grammar construction is separate.** Text-to-ready-parser time is reported once per engine and never included in
   parse times. This is the cost an extension pays when it changes the grammar.
+- **No error bookkeeping in cpp-peglib.** The parsers run without a logger; with one installed cpp-peglib tracks
+  expected tokens on every failed match, which costs it 15-20%.
 - **Acceptance is checked, not assumed.** A variant that rejects an input shows up in the `accepted` column.
 
 Known asymmetries that remain:
@@ -68,7 +70,7 @@ the grammar text is re-expressed as PEG rules:
 - **`Program`** is rewritten to `(Statement? ';'+)* Statement? EndOfInput`, because cpp-peglib rejects the
   zero-width repetition in `TopLevelStatement*`.
 - Choices between keywords (the keyword category rules and the exclusion sets) use cpp-peglib's trie dictionaries
-  (`'A'i | 'B'i`), which is the tuned form of the same language: 24.5 ms to 17.5 ms on TPC-H. `--no-dictionary`
+  (`'A'i | 'B'i`), which is the tuned form of the same language: 19.7 ms to 14.3 ms on TPC-H. `--no-dictionary`
   emits plain ordered choices.
 
 Approximations: string continuation across newlines is accepted but dollar-quote tags are limited to ASCII;
@@ -82,44 +84,61 @@ legacy_parser `bcdf276`. Totals over all inputs of a corpus, median of 7 rounds.
 
 | corpus | engine | output | config | accepted | total ms | ns/token | vs DuckDB PEG |
 |---|---|---|---|---|---|---|---|
-| tpch | peglib | recognize | no packrat | 22/22 | 36.536 | 18397 | 30.66x |
-| tpch | peglib | recognize | packrat | 22/22 | 17.530 | 8827 | 14.71x |
-| tpch | peglib | tree | packrat | 22/22 | 20.992 | 10570 | 17.61x |
-| tpch | duckdb | tokenize |  | 22/22 | 0.075 | 38 |  |
-| tpch | duckdb | recognize |  | 22/22 | 4.048 | 2038 | 3.40x |
-| tpch | duckdb | tree |  | 22/22 | 1.192 | 600 | 1.00x |
-| tpch | duckdb | ast |  | 22/22 | 1.560 | 785 | 1.00x |
-| tpch | postgres | tree | libpg_query | 22/22 | 0.137 | 69 | 0.12x |
-| tpch | postgres | ast | legacy_parser extension | 22/22 | 0.296 | 149 | 0.19x |
-| tpcds | peglib | recognize | no packrat | 99/99 | 632.827 | 26535 | 47.72x |
-| tpcds | peglib | recognize | packrat | 99/99 | 244.623 | 10257 | 18.45x |
-| tpcds | peglib | tree | packrat | 99/99 | 283.545 | 11889 | 21.38x |
-| tpcds | duckdb | tokenize |  | 99/99 | 0.924 | 39 |  |
-| tpcds | duckdb | recognize |  | 99/99 | 45.697 | 1916 | 3.45x |
-| tpcds | duckdb | tree |  | 99/99 | 13.260 | 556 | 1.00x |
-| tpcds | duckdb | ast |  | 99/99 | 17.065 | 716 | 1.00x |
-| tpcds | postgres | tree | libpg_query | 99/99 | 1.723 | 72 | 0.13x |
-| tpcds | postgres | ast | legacy_parser extension | 99/99 | 3.606 | 151 | 0.21x |
-| short | peglib | recognize | no packrat | 6/6 | 0.969 | 10763 | 21.17x |
-| short | peglib | recognize | packrat | 6/6 | 0.566 | 6286 | 12.37x |
-| short | peglib | tree | packrat | 6/6 | 0.682 | 7583 | 14.92x |
-| short | duckdb | tokenize |  | 6/6 | 0.003 | 33 |  |
-| short | duckdb | recognize |  | 6/6 | 0.167 | 1854 | 3.65x |
-| short | duckdb | tree |  | 6/6 | 0.046 | 508 | 1.00x |
-| short | duckdb | ast |  | 6/6 | 0.064 | 710 | 1.00x |
-| short | postgres | tree | libpg_query | 6/6 | 0.005 | 60 | 0.12x |
-| short | postgres | ast | legacy_parser extension | 6/6 | 0.015 | 167 | 0.24x |
-| (grammar) | peglib | construction | text to parser |  | 59.355 |  |  |
-| (grammar) | duckdb | construction | CompiledGrammar::Create |  | 2.102 |  |  |
+| tpch | peglib | recognize | no packrat | 22/22 | 32.137 | 16182 | 26.53x |
+| tpch | peglib | recognize | packrat | 22/22 | 14.310 | 7205 | 11.81x |
+| tpch | peglib | tree | packrat | 22/22 | 17.806 | 8966 | 14.70x |
+| tpch | duckdb | tokenize |  | 22/22 | 0.074 | 37 |  |
+| tpch | duckdb | recognize |  | 22/22 | 4.108 | 2069 | 3.39x |
+| tpch | duckdb | tree |  | 22/22 | 1.212 | 610 | 1.00x |
+| tpch | duckdb | ast |  | 22/22 | 1.579 | 795 | 1.00x |
+| tpch | postgres | tree | libpg_query | 22/22 | 0.138 | 70 | 0.11x |
+| tpch | postgres | ast | legacy_parser extension | 22/22 | 0.298 | 150 | 0.19x |
+| tpcds | peglib | recognize | no packrat | 99/99 | 567.533 | 23797 | 41.77x |
+| tpcds | peglib | recognize | packrat | 99/99 | 204.276 | 8565 | 15.03x |
+| tpcds | peglib | tree | packrat | 99/99 | 245.772 | 10305 | 18.09x |
+| tpcds | duckdb | tokenize |  | 99/99 | 0.930 | 39 |  |
+| tpcds | duckdb | recognize |  | 99/99 | 46.837 | 1964 | 3.45x |
+| tpcds | duckdb | tree |  | 99/99 | 13.588 | 570 | 1.00x |
+| tpcds | duckdb | ast |  | 99/99 | 17.416 | 730 | 1.00x |
+| tpcds | postgres | tree | libpg_query | 99/99 | 1.736 | 73 | 0.13x |
+| tpcds | postgres | ast | legacy_parser extension | 99/99 | 3.628 | 152 | 0.21x |
+| short | peglib | recognize | no packrat | 6/6 | 0.859 | 9550 | 18.41x |
+| short | peglib | recognize | packrat | 6/6 | 0.481 | 5341 | 10.29x |
+| short | peglib | tree | packrat | 6/6 | 0.603 | 6703 | 12.92x |
+| short | duckdb | tokenize |  | 6/6 | 0.003 | 32 |  |
+| short | duckdb | recognize |  | 6/6 | 0.171 | 1898 | 3.66x |
+| short | duckdb | tree |  | 6/6 | 0.047 | 519 | 1.00x |
+| short | duckdb | ast |  | 6/6 | 0.065 | 719 | 1.00x |
+| short | postgres | tree | libpg_query | 6/6 | 0.005 | 61 | 0.12x |
+| short | postgres | ast | legacy_parser extension | 6/6 | 0.015 | 168 | 0.23x |
+| (grammar) | peglib | construction | text to parser |  | 58.393 |  |  |
+| (grammar) | duckdb | construction | CompiledGrammar::Create |  | 1.983 |  |  |
 
 Reading:
 
-- **Against cpp-peglib**, on the same grammar, DuckDB's PEG parser builds its parse tree 15-21x faster and constructs
-  the grammar 28x faster (2.1 ms against 59 ms). Packrat memoisation halves cpp-peglib's time and it is still more
+- **Against cpp-peglib**, on the same grammar, DuckDB's PEG parser builds its parse tree 13-18x faster and constructs
+  the grammar 29x faster (2.0 ms against 58 ms). Packrat memoisation halves cpp-peglib's time and it is still more
   than an order of magnitude behind.
 - **Against the PostgreSQL parser**, DuckDB's PEG parser is 4-5x slower to a DuckDB AST and 8-9x slower to a
   parse tree. This is the price of the runtime-extensible design at this commit.
 - The ratios hold from short statements to TPC-DS: time per token varies by less than 1.6x within each engine.
+
+## Where the cpp-peglib gap comes from
+
+Measured with cpp-peglib's tracer and a sampling profile on TPC-H (1,986 tokens, packrat on):
+
+- cpp-peglib enters 391k operators (176k of them named rules), 197 per token, and 80% of them fail. At 14.3 ms
+  that is about 37 ns per operator, so the individual steps are not slow; there are many of them.
+- The profile is flat. The top entries are the packrat lookup, rule entry, semantic-value scopes, reference
+  dispatch and case-insensitive literal comparison (`tolower`/`strcmp`, about 13% of samples); nothing exceeds 10%.
+- The attempts are alternatives that the next token already rules out. Each of the 35 `Statement` alternatives
+  is tried for every query; at every expression operand about 30 type rules, `CASE`, `CAST` and the other special
+  forms are tried; each of the 33 operator rules is entered about 600 times; `QuotedIdentifier` is tried 4,169
+  times for a few hundred identifiers.
+
+DuckDB's parser avoids this work by design: the tokenizer classifies each token once (38 ns/token), and FIRST sets
+over token classes and literal ids let a choice skip alternatives without entering them. An October profile of an
+earlier DuckDB commit counted about 5 matcher steps per token; that figure has not been re-measured here.
 
 ## Files
 
