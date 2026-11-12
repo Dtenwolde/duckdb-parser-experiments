@@ -38,3 +38,6 @@ paper/*.toc
 paper/sections/*.aux
 paper/main.pdf
 paper/comment.cut
+
+# Parser-vs-parser benchmark build output
+experiments/peglib/build/

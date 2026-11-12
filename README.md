@@ -14,6 +14,10 @@ duckdb-parser-experiments/
 ├── duckdb/                  # Git submodule — upstream duckdb/duckdb (PEG parser)
 ├── saneql/                  # Git submodule — SaneQL dialect extension (use case)
 ├── duckpgq-extension/       # Git submodule — DuckPGQ SQL/PGQ extension (use case)
+├── third_party/cpp-peglib/  # Git submodule — cpp-peglib (baseline PEG engine, pinned tag)
+├── experiments/
+│   ├── composition/         # Grammar-extension composition experiments
+│   └── peglib/              # In-process benchmark: cpp-peglib vs DuckDB PEG vs PostgreSQL parser
 ├── paper/                   # LaTeX source, PVLDB template (see paper/TEMPLATE_README.md)
 │   ├── main.tex, sections/, references.bib, figures/
 │   └── Makefile             # make (latexmk), make clean

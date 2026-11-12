@@ -1,0 +1,1146 @@
+corpus,input,bytes,tokens,engine,level,config,accepted,repetitions,median_ns,min_ns
+__grammar__,construct,85477,0,peglib,grammar,text to parser,1,1,59355000,57953459
+__grammar__,construct,0,0,duckdb,grammar,CompiledGrammar::Create,1,1,2101708,1929833
+tpch,q01,545,101,peglib,recognize,no packrat,1,1,1972875,1918125
+tpch,q01,545,101,peglib,recognize,packrat,1,2,867812,822292
+tpch,q01,545,101,peglib,tree,packrat,1,1,1038708,1005375
+tpch,q01,545,101,duckdb,tokenize,,1,475,3305,3104
+tpch,q01,545,101,duckdb,recognize,,1,9,200639,196421
+tpch,q01,545,101,duckdb,tree,,1,32,54812,53095
+tpch,q01,545,101,duckdb,ast,,1,24,73031,71528
+tpch,q01,545,101,postgres,tree,libpg_query,1,244,6264,6162
+tpch,q01,545,101,postgres,ast,legacy_parser extension,1,71,13033,12660
+tpch,q02,841,106,peglib,recognize,no packrat,1,1,2747875,2714958
+tpch,q02,841,106,peglib,recognize,packrat,1,1,1153125,1107917
+tpch,q02,841,106,peglib,tree,packrat,1,1,1388250,1320750
+tpch,q02,841,106,duckdb,tokenize,,1,374,4336,4195
+tpch,q02,841,106,duckdb,recognize,,1,7,257494,254036
+tpch,q02,841,106,duckdb,tree,,1,22,81705,79544
+tpch,q02,841,106,duckdb,ast,,1,17,103836,100971
+tpch,q02,841,106,postgres,tree,libpg_query,1,170,8569,8172
+tpch,q02,841,106,postgres,ast,legacy_parser extension,1,88,16256,15762
+tpch,q03,468,72,peglib,recognize,no packrat,1,1,1413708,1359583
+tpch,q03,468,72,peglib,recognize,packrat,1,3,637625,621139
+tpch,q03,468,72,peglib,tree,packrat,1,2,774166,758146
+tpch,q03,468,72,duckdb,tokenize,,1,640,2617,2574
+tpch,q03,468,72,duckdb,recognize,,1,13,155904,149067
+tpch,q03,468,72,duckdb,tree,,1,43,44473,44011
+tpch,q03,468,72,duckdb,ast,,1,33,59609,57648
+tpch,q03,468,72,postgres,tree,libpg_query,1,299,4887,4773
+tpch,q03,468,72,postgres,ast,legacy_parser extension,1,146,10709,10518
+tpch,q04,408,53,peglib,recognize,no packrat,1,2,859167,825958
+tpch,q04,408,53,peglib,recognize,packrat,1,3,457653,443458
+tpch,q04,408,53,peglib,tree,packrat,1,3,544736,535417
+tpch,q04,408,53,duckdb,tokenize,,1,761,2222,2149
+tpch,q04,408,53,duckdb,recognize,,1,17,111017,106880
+tpch,q04,408,53,duckdb,tree,,1,60,31039,29652
+tpch,q04,408,53,duckdb,ast,,1,46,43204,40140
+tpch,q04,408,53,postgres,tree,libpg_query,1,403,3813,3681
+tpch,q04,408,53,postgres,ast,legacy_parser extension,1,209,7216,6989
+tpch,q05,522,82,peglib,recognize,no packrat,1,1,1488375,1411875
+tpch,q05,522,82,peglib,recognize,packrat,1,2,727021,686250
+tpch,q05,522,82,peglib,tree,packrat,1,2,868812,829562
+tpch,q05,522,82,duckdb,tokenize,,1,558,3196,2974
+tpch,q05,522,82,duckdb,recognize,,1,11,167208,164693
+tpch,q05,522,82,duckdb,tree,,1,38,51173,50664
+tpch,q05,522,82,duckdb,ast,,1,30,66950,65674
+tpch,q05,522,82,postgres,tree,libpg_query,1,294,5842,5652
+tpch,q05,522,82,postgres,ast,legacy_parser extension,1,145,11911,11462
+tpch,q06,243,41,peglib,recognize,no packrat,1,3,550056,545875
+tpch,q06,243,41,peglib,recognize,packrat,1,5,298042,288667
+tpch,q06,243,41,peglib,tree,packrat,1,5,362850,346158
+tpch,q06,243,41,duckdb,tokenize,,1,1090,1467,1401
+tpch,q06,243,41,duckdb,recognize,,1,26,75373,73691
+tpch,q06,243,41,duckdb,tree,,1,86,21502,20704
+tpch,q06,243,41,duckdb,ast,,1,65,29297,28142
+tpch,q06,243,41,postgres,tree,libpg_query,1,533,2580,2490
+tpch,q06,243,41,postgres,ast,legacy_parser extension,1,143,7497,7327
+tpch,q07,954,149,peglib,recognize,no packrat,1,1,2269042,2209000
+tpch,q07,954,149,peglib,recognize,packrat,1,1,1211458,1188500
+tpch,q07,954,149,peglib,tree,packrat,1,1,1443709,1401125
+tpch,q07,954,149,duckdb,tokenize,,1,326,5401,5307
+tpch,q07,954,149,duckdb,recognize,,1,7,269690,260756
+tpch,q07,954,149,duckdb,tree,,1,25,81523,77783
+tpch,q07,954,149,duckdb,ast,,1,19,102770,99936
+tpch,q07,954,149,postgres,tree,libpg_query,1,148,10120,9788
+tpch,q07,954,149,postgres,ast,legacy_parser extension,1,80,19236,18834
+tpch,q08,950,137,peglib,recognize,no packrat,1,1,2214917,2168084
+tpch,q08,950,137,peglib,recognize,packrat,1,1,1169166,1142042
+tpch,q08,950,137,peglib,tree,packrat,1,1,1376666,1343792
+tpch,q08,950,137,duckdb,tokenize,,1,296,5413,4976
+tpch,q08,950,137,duckdb,recognize,,1,7,254607,252952
+tpch,q08,950,137,duckdb,tree,,1,22,77617,74663
+tpch,q08,950,137,duckdb,ast,,1,18,101382,96433
+tpch,q08,950,137,postgres,tree,libpg_query,1,150,9762,9442
+tpch,q08,950,137,postgres,ast,legacy_parser extension,1,79,19586,18677
+tpch,q09,678,96,peglib,recognize,no packrat,1,1,1763333,1679708
+tpch,q09,678,96,peglib,recognize,packrat,1,2,873062,831334
+tpch,q09,678,96,peglib,tree,packrat,1,1,1078583,998916
+tpch,q09,678,96,duckdb,tokenize,,1,475,3829,3747
+tpch,q09,678,96,duckdb,recognize,,1,10,198712,189421
+tpch,q09,678,96,duckdb,tree,,1,33,61480,58731
+tpch,q09,678,96,duckdb,ast,,1,23,80938,78178
+tpch,q09,678,96,postgres,tree,libpg_query,1,220,7439,7089
+tpch,q09,678,96,postgres,ast,legacy_parser extension,1,114,14142,13681
+tpch,q10,580,92,peglib,recognize,no packrat,1,1,2006000,1883042
+tpch,q10,580,92,peglib,recognize,packrat,1,2,856604,838875
+tpch,q10,580,92,peglib,tree,packrat,1,1,1058125,1023667
+tpch,q10,580,92,duckdb,tokenize,,1,516,3259,3099
+tpch,q10,580,92,duckdb,recognize,,1,9,215120,208875
+tpch,q10,580,92,duckdb,tree,,1,31,62625,60384
+tpch,q10,580,92,duckdb,ast,,1,23,79359,77772
+tpch,q10,580,92,postgres,tree,libpg_query,1,224,6275,6139
+tpch,q10,580,92,postgres,ast,legacy_parser extension,1,104,14321,13964
+tpch,q11,582,75,peglib,recognize,no packrat,1,1,1856541,1810833
+tpch,q11,582,75,peglib,recognize,packrat,1,2,726458,715646
+tpch,q11,582,75,peglib,tree,packrat,1,2,882000,852312
+tpch,q11,582,75,duckdb,tokenize,,1,533,3139,3019
+tpch,q11,582,75,duckdb,recognize,,1,10,170829,162167
+tpch,q11,582,75,duckdb,tree,,1,35,55120,52367
+tpch,q11,582,75,duckdb,ast,,1,28,70094,67665
+tpch,q11,582,75,postgres,tree,libpg_query,1,279,5630,5476
+tpch,q11,582,75,postgres,ast,legacy_parser extension,1,127,12035,11616
+tpch,q12,704,92,peglib,recognize,no packrat,1,1,1764583,1677792
+tpch,q12,704,92,peglib,recognize,packrat,1,2,825666,817646
+tpch,q12,704,92,peglib,tree,packrat,1,2,997854,959875
+tpch,q12,704,92,duckdb,tokenize,,1,470,3583,3504
+tpch,q12,704,92,duckdb,recognize,,1,10,190800,181754
+tpch,q12,704,92,duckdb,tree,,1,36,53931,52810
+tpch,q12,704,92,duckdb,ast,,1,26,70482,67409
+tpch,q12,704,92,postgres,tree,libpg_query,1,240,6462,6272
+tpch,q12,704,92,postgres,ast,legacy_parser extension,1,116,14278,13478
+tpch,q13,366,56,peglib,recognize,no packrat,1,2,1010646,942146
+tpch,q13,366,56,peglib,recognize,packrat,1,4,432823,421156
+tpch,q13,366,56,peglib,tree,packrat,1,4,508781,492094
+tpch,q13,366,56,duckdb,tokenize,,1,716,2200,2018
+tpch,q13,366,56,duckdb,recognize,,1,18,103336,101620
+tpch,q13,366,56,duckdb,tree,,1,60,30703,29960
+tpch,q13,366,56,duckdb,ast,,1,45,42893,41028
+tpch,q13,366,56,postgres,tree,libpg_query,1,363,3932,3851
+tpch,q13,366,56,postgres,ast,legacy_parser extension,1,214,7113,6817
+tpch,q14,364,59,peglib,recognize,no packrat,1,1,1037291,1011334
+tpch,q14,364,59,peglib,recognize,packrat,1,4,497188,473760
+tpch,q14,364,59,peglib,tree,packrat,1,3,577833,566944
+tpch,q14,364,59,duckdb,tokenize,,1,727,2018,1953
+tpch,q14,364,59,duckdb,recognize,,1,18,112734,111340
+tpch,q14,364,59,duckdb,tree,,1,58,32801,31945
+tpch,q14,364,59,duckdb,ast,,1,43,43856,43415
+tpch,q14,364,59,postgres,tree,libpg_query,1,413,3630,3542
+tpch,q14,364,59,postgres,ast,legacy_parser extension,1,156,10134,9961
+tpch,q15,561,80,peglib,recognize,no packrat,1,1,1942750,1880625
+tpch,q15,561,80,peglib,recognize,packrat,1,2,727584,716146
+tpch,q15,561,80,peglib,tree,packrat,1,2,865666,844542
+tpch,q15,561,80,duckdb,tokenize,,1,494,3017,2920
+tpch,q15,561,80,duckdb,recognize,,1,11,172591,167898
+tpch,q15,561,80,duckdb,tree,,1,38,50236,48560
+tpch,q15,561,80,duckdb,ast,,1,25,67797,64495
+tpch,q15,561,80,postgres,tree,libpg_query,1,244,5746,5713
+tpch,q15,561,80,postgres,ast,legacy_parser extension,1,139,10952,10480
+tpch,q16,553,84,peglib,recognize,no packrat,1,1,1364333,1337959
+tpch,q16,553,84,peglib,recognize,packrat,1,2,718000,695104
+tpch,q16,553,84,peglib,tree,packrat,1,2,874188,848208
+tpch,q16,553,84,duckdb,tokenize,,1,545,3097,2845
+tpch,q16,553,84,duckdb,recognize,,1,11,184125,179538
+tpch,q16,553,84,duckdb,tree,,1,37,52452,50036
+tpch,q16,553,84,duckdb,ast,,1,25,68175,65030
+tpch,q16,553,84,postgres,tree,libpg_query,1,259,5526,5326
+tpch,q16,553,84,postgres,ast,legacy_parser extension,1,120,13261,13062
+tpch,q17,329,45,peglib,recognize,no packrat,1,2,935083,852396
+tpch,q17,329,45,peglib,recognize,packrat,1,5,421108,391033
+tpch,q17,329,45,peglib,tree,packrat,1,4,485646,475021
+tpch,q17,329,45,duckdb,tokenize,,1,922,1733,1702
+tpch,q17,329,45,duckdb,recognize,,1,18,97801,95491
+tpch,q17,329,45,duckdb,tree,,1,64,29977,29552
+tpch,q17,329,45,duckdb,ast,,1,49,40824,39147
+tpch,q17,329,45,postgres,tree,libpg_query,1,505,3092,3040
+tpch,q17,329,45,postgres,ast,legacy_parser extension,1,195,8341,8160
+tpch,q18,544,69,peglib,recognize,no packrat,1,1,1835875,1776625
+tpch,q18,544,69,peglib,recognize,packrat,1,2,718854,702730
+tpch,q18,544,69,peglib,tree,packrat,1,2,864896,846062
+tpch,q18,544,69,duckdb,tokenize,,1,592,2977,2869
+tpch,q18,544,69,duckdb,recognize,,1,11,176352,174701
+tpch,q18,544,69,duckdb,tree,,1,37,51650,49493
+tpch,q18,544,69,duckdb,ast,,1,27,66809,65441
+tpch,q18,544,69,postgres,tree,libpg_query,1,290,5258,5087
+tpch,q18,544,69,postgres,ast,legacy_parser extension,1,142,11097,10655
+tpch,q19,1043,169,peglib,recognize,no packrat,1,1,2176792,2110458
+tpch,q19,1043,169,peglib,recognize,packrat,1,1,1341417,1318458
+tpch,q19,1043,169,peglib,tree,packrat,1,1,1613083,1570958
+tpch,q19,1043,169,duckdb,tokenize,,1,335,5126,4910
+tpch,q19,1043,169,duckdb,recognize,,1,6,310736,304111
+tpch,q19,1043,169,duckdb,tree,,1,24,85080,79597
+tpch,q19,1043,169,duckdb,ast,,1,18,107532,104979
+tpch,q19,1043,169,postgres,tree,libpg_query,1,170,9909,9658
+tpch,q19,1043,169,postgres,ast,legacy_parser extension,1,65,27203,26635
+tpch,q20,909,83,peglib,recognize,no packrat,1,1,1901500,1833083
+tpch,q20,909,83,peglib,recognize,packrat,1,1,888542,877041
+tpch,q20,909,83,peglib,tree,packrat,1,1,1045667,1026834
+tpch,q20,909,83,duckdb,tokenize,,1,413,4057,3973
+tpch,q20,909,83,duckdb,recognize,,1,10,187904,184008
+tpch,q20,909,83,duckdb,tree,,1,34,56330,55893
+tpch,q20,909,83,duckdb,ast,,1,26,75157,73782
+tpch,q20,909,83,postgres,tree,libpg_query,1,231,6858,6705
+tpch,q20,909,83,postgres,ast,legacy_parser extension,1,117,14013,13821
+tpch,q21,803,122,peglib,recognize,no packrat,1,1,1701792,1594208
+tpch,q21,803,122,peglib,recognize,packrat,1,1,979625,907167
+tpch,q21,803,122,peglib,tree,packrat,1,1,1147000,1119084
+tpch,q21,803,122,duckdb,tokenize,,1,384,4586,4424
+tpch,q21,803,122,duckdb,recognize,,1,9,211560,205009
+tpch,q21,803,122,duckdb,tree,,1,29,66517,64826
+tpch,q21,803,122,duckdb,ast,,1,23,85792,83792
+tpch,q21,803,122,postgres,tree,libpg_query,1,183,8574,8235
+tpch,q21,803,122,postgres,ast,legacy_parser extension,1,105,15133,14928
+tpch,q22,807,123,peglib,recognize,no packrat,1,1,1723000,1662542
+tpch,q22,807,123,peglib,recognize,packrat,1,1,1000834,982959
+tpch,q22,807,123,peglib,tree,packrat,1,1,1194750,1168250
+tpch,q22,807,123,duckdb,tokenize,,1,406,4205,4090
+tpch,q22,807,123,duckdb,recognize,,1,8,223901,219182
+tpch,q22,807,123,duckdb,tree,,1,33,58977,57780
+tpch,q22,807,123,duckdb,ast,,1,24,79970,77547
+tpch,q22,807,123,postgres,tree,libpg_query,1,212,7315,7136
+tpch,q22,807,123,postgres,ast,legacy_parser extension,1,91,18538,17332
+tpcds,01,691,94,peglib,recognize,no packrat,1,1,1834958,1747458
+tpcds,01,691,94,peglib,recognize,packrat,1,2,824854,790438
+tpcds,01,691,94,peglib,tree,packrat,1,1,1008792,963542
+tpcds,01,691,94,duckdb,tokenize,,1,393,4034,3795
+tpcds,01,691,94,duckdb,recognize,,1,11,182883,177545
+tpcds,01,691,94,duckdb,tree,,1,33,56942,55101
+tpcds,01,691,94,duckdb,ast,,1,23,73475,70433
+tpcds,01,691,94,postgres,tree,libpg_query,1,209,7390,7071
+tpcds,01,691,94,postgres,ast,legacy_parser extension,1,105,14485,14333
+tpcds,02,2558,346,peglib,recognize,no packrat,1,1,14867666,14223333
+tpcds,02,2558,346,peglib,recognize,packrat,1,1,3718208,3582458
+tpcds,02,2558,346,peglib,tree,packrat,1,1,4299458,4128917
+tpcds,02,2558,346,duckdb,tokenize,,1,126,13362,13042
+tpcds,02,2558,346,duckdb,recognize,,1,2,715021,699042
+tpcds,02,2558,346,duckdb,tree,,1,9,203449,194315
+tpcds,02,2558,346,duckdb,ast,,1,7,254339,248208
+tpcds,02,2558,346,postgres,tree,libpg_query,1,72,25084,23726
+tpcds,02,2558,346,postgres,ast,legacy_parser extension,1,31,46013,44690
+tpcds,03,448,82,peglib,recognize,no packrat,1,1,1354000,1296125
+tpcds,03,448,82,peglib,recognize,packrat,1,3,601319,554056
+tpcds,03,448,82,peglib,tree,packrat,1,2,745167,685812
+tpcds,03,448,82,duckdb,tokenize,,1,516,2926,2808
+tpcds,03,448,82,duckdb,recognize,,1,14,134589,131589
+tpcds,03,448,82,duckdb,tree,,1,44,42204,41657
+tpcds,03,448,82,duckdb,ast,,1,36,54453,52569
+tpcds,03,448,82,postgres,tree,libpg_query,1,265,5593,5305
+tpcds,03,448,82,postgres,ast,legacy_parser extension,1,144,11025,10443
+tpcds,04,4663,516,peglib,recognize,no packrat,1,1,19021750,17885125
+tpcds,04,4663,516,peglib,recognize,packrat,1,1,6235250,5684375
+tpcds,04,4663,516,peglib,tree,packrat,1,1,7047750,6539708
+tpcds,04,4663,516,duckdb,tokenize,,1,76,24458,22944
+tpcds,04,4663,516,duckdb,recognize,,1,2,952770,930812
+tpcds,04,4663,516,duckdb,tree,,1,6,287208,278222
+tpcds,04,4663,516,duckdb,ast,,1,4,372323,354990
+tpcds,04,4663,516,postgres,tree,libpg_query,1,46,41256,39424
+tpcds,04,4663,516,postgres,ast,legacy_parser extension,1,22,83311,80640
+tpcds,05,4239,641,peglib,recognize,no packrat,1,1,12980875,11560167
+tpcds,05,4239,641,peglib,recognize,packrat,1,1,6074958,5619458
+tpcds,05,4239,641,peglib,tree,packrat,1,1,6962292,6486458
+tpcds,05,4239,641,duckdb,tokenize,,1,85,23087,22203
+tpcds,05,4239,641,duckdb,recognize,,1,1,1064875,1033416
+tpcds,05,4239,641,duckdb,tree,,1,6,303160,297854
+tpcds,05,4239,641,duckdb,ast,,1,4,402896,396271
+tpcds,05,4239,641,postgres,tree,libpg_query,1,36,47414,45822
+tpcds,05,4239,641,postgres,ast,legacy_parser extension,1,20,90154,87125
+tpcds,06,656,134,peglib,recognize,no packrat,1,1,1922708,1869584
+tpcds,06,656,134,peglib,recognize,packrat,1,1,1001042,973625
+tpcds,06,656,134,peglib,tree,packrat,1,1,1182084,1142375
+tpcds,06,656,134,duckdb,tokenize,,1,352,4585,4319
+tpcds,06,656,134,duckdb,recognize,,1,9,218134,208741
+tpcds,06,656,134,duckdb,tree,,1,24,70609,66497
+tpcds,06,656,134,duckdb,ast,,1,22,90381,87224
+tpcds,06,656,134,postgres,tree,libpg_query,1,174,8849,8455
+tpcds,06,656,134,postgres,ast,legacy_parser extension,1,94,17346,16894
+tpcds,07,578,88,peglib,recognize,no packrat,1,1,2304417,2150250
+tpcds,07,578,88,peglib,recognize,packrat,1,2,827021,794000
+tpcds,07,578,88,peglib,tree,packrat,1,2,996875,953958
+tpcds,07,578,88,duckdb,tokenize,,1,465,3316,3173
+tpcds,07,578,88,duckdb,recognize,,1,10,197500,189050
+tpcds,07,578,88,duckdb,tree,,1,34,57431,55441
+tpcds,07,578,88,duckdb,ast,,1,27,73525,71437
+tpcds,07,578,88,postgres,tree,libpg_query,1,230,6326,6240
+tpcds,07,578,88,postgres,ast,legacy_parser extension,1,118,12889,12700
+tpcds,08,19157,939,peglib,recognize,no packrat,1,1,13525750,11817625
+tpcds,08,19157,939,peglib,recognize,packrat,1,1,7616542,7238375
+tpcds,08,19157,939,peglib,tree,packrat,1,1,8824000,8488708
+tpcds,08,19157,939,duckdb,tokenize,,1,48,40622,39498
+tpcds,08,19157,939,duckdb,recognize,,1,1,1414000,1371625
+tpcds,08,19157,939,duckdb,tree,,1,6,320639,308604
+tpcds,08,19157,939,duckdb,ast,,1,5,395892,387908
+tpcds,08,19157,939,postgres,tree,libpg_query,1,30,64732,63907
+tpcds,08,19157,939,postgres,ast,legacy_parser extension,1,13,149272,144891
+tpcds,09,2449,278,peglib,recognize,no packrat,1,1,15335250,14143167
+tpcds,09,2449,278,peglib,recognize,packrat,1,1,3200084,3103500
+tpcds,09,2449,278,peglib,tree,packrat,1,1,3656209,3469083
+tpcds,09,2449,278,duckdb,tokenize,,1,119,11777,11331
+tpcds,09,2449,278,duckdb,recognize,,1,2,591792,582812
+tpcds,09,2449,278,duckdb,tree,,1,9,177764,171130
+tpcds,09,2449,278,duckdb,ast,,1,7,221684,219137
+tpcds,09,2449,278,postgres,tree,libpg_query,1,83,20685,20443
+tpcds,09,2449,278,postgres,ast,legacy_parser extension,1,36,44909,42020
+tpcds,10,1860,224,peglib,recognize,no packrat,1,1,6078917,5392167
+tpcds,10,1860,224,peglib,recognize,packrat,1,1,2366250,2258250
+tpcds,10,1860,224,peglib,tree,packrat,1,1,2769708,2620833
+tpcds,10,1860,224,duckdb,tokenize,,1,192,8799,8298
+tpcds,10,1860,224,duckdb,recognize,,1,3,479528,461583
+tpcds,10,1860,224,duckdb,tree,,1,12,136427,134958
+tpcds,10,1860,224,duckdb,ast,,1,10,175604,171079
+tpcds,10,1860,224,postgres,tree,libpg_query,1,81,16369,15882
+tpcds,10,1860,224,postgres,ast,legacy_parser extension,1,45,36949,33962
+tpcds,11,3008,330,peglib,recognize,no packrat,1,1,9564583,8934292
+tpcds,11,3008,330,peglib,recognize,packrat,1,1,3399792,3141958
+tpcds,11,3008,330,peglib,tree,packrat,1,1,3992417,3737625
+tpcds,11,3008,330,duckdb,tokenize,,1,121,15627,14736
+tpcds,11,3008,330,duckdb,recognize,,1,3,609250,592944
+tpcds,11,3008,330,duckdb,tree,,1,11,183477,178125
+tpcds,11,3008,330,duckdb,ast,,1,8,235698,227073
+tpcds,11,3008,330,postgres,tree,libpg_query,1,69,26569,25444
+tpcds,11,3008,330,postgres,ast,legacy_parser extension,1,31,55778,54660
+tpcds,12,751,106,peglib,recognize,no packrat,1,1,2406667,2336166
+tpcds,12,751,106,peglib,recognize,packrat,1,2,1001792,979750
+tpcds,12,751,106,peglib,tree,packrat,1,1,1207708,1182250
+tpcds,12,751,106,duckdb,tokenize,,1,410,3731,3656
+tpcds,12,751,106,duckdb,recognize,,1,8,232755,228568
+tpcds,12,751,106,duckdb,tree,,1,29,66621,64007
+tpcds,12,751,106,duckdb,ast,,1,22,86545,83460
+tpcds,12,751,106,postgres,tree,libpg_query,1,194,7534,7237
+tpcds,12,751,106,postgres,ast,legacy_parser extension,1,92,15963,15787
+tpcds,13,2434,215,peglib,recognize,no packrat,1,1,5846333,5497833
+tpcds,13,2434,215,peglib,recognize,packrat,1,1,2535208,2452875
+tpcds,13,2434,215,peglib,tree,packrat,1,1,2911958,2786250
+tpcds,13,2434,215,duckdb,tokenize,,1,186,9415,9156
+tpcds,13,2434,215,duckdb,recognize,,1,4,429750,422614
+tpcds,13,2434,215,duckdb,tree,,1,15,131158,127439
+tpcds,13,2434,215,duckdb,ast,,1,12,162038,159344
+tpcds,13,2434,215,postgres,tree,libpg_query,1,92,17782,17555
+tpcds,13,2434,215,postgres,ast,legacy_parser extension,1,35,43654,41899
+tpcds,14,4230,538,peglib,recognize,no packrat,1,1,18426875,17076083
+tpcds,14,4230,538,peglib,recognize,packrat,1,1,6490417,5989166
+tpcds,14,4230,538,peglib,tree,packrat,1,1,7403792,6952458
+tpcds,14,4230,538,duckdb,tokenize,,1,83,23260,22522
+tpcds,14,4230,538,duckdb,recognize,,1,1,1103542,1078125
+tpcds,14,4230,538,duckdb,tree,,1,6,343889,337368
+tpcds,14,4230,538,duckdb,ast,,1,4,447094,430583
+tpcds,14,4230,538,postgres,tree,libpg_query,1,42,43696,41679
+tpcds,14,4230,538,postgres,ast,legacy_parser extension,1,21,86784,83315
+tpcds,15,813,92,peglib,recognize,no packrat,1,1,1581083,1507541
+tpcds,15,813,92,peglib,recognize,packrat,1,2,762062,731480
+tpcds,15,813,92,peglib,tree,packrat,1,2,899333,880938
+tpcds,15,813,92,duckdb,tokenize,,1,444,3412,3306
+tpcds,15,813,92,duckdb,recognize,,1,11,173693,167292
+tpcds,15,813,92,duckdb,tree,,1,39,48238,47480
+tpcds,15,813,92,duckdb,ast,,1,30,64749,63619
+tpcds,15,813,92,postgres,tree,libpg_query,1,244,6258,5939
+tpcds,15,813,92,postgres,ast,legacy_parser extension,1,108,14698,14139
+tpcds,16,823,122,peglib,recognize,no packrat,1,1,1890167,1867500
+tpcds,16,823,122,peglib,recognize,packrat,1,2,961958,946146
+tpcds,16,823,122,peglib,tree,packrat,1,1,1199708,1160417
+tpcds,16,823,122,duckdb,tokenize,,1,383,4696,4285
+tpcds,16,823,122,duckdb,recognize,,1,9,211236,209171
+tpcds,16,823,122,duckdb,tree,,1,29,66524,64760
+tpcds,16,823,122,duckdb,ast,,1,23,87458,84572
+tpcds,16,823,122,postgres,tree,libpg_query,1,187,9001,8869
+tpcds,16,823,122,postgres,ast,legacy_parser extension,1,105,16451,15688
+tpcds,17,1766,224,peglib,recognize,no packrat,1,1,5347167,5085667
+tpcds,17,1766,224,peglib,recognize,packrat,1,1,2206250,2067750
+tpcds,17,1766,224,peglib,tree,packrat,1,1,2662958,2467208
+tpcds,17,1766,224,duckdb,tokenize,,1,200,8793,8454
+tpcds,17,1766,224,duckdb,recognize,,1,4,445958,432229
+tpcds,17,1766,224,duckdb,tree,,1,15,129264,126850
+tpcds,17,1766,224,duckdb,ast,,1,12,168615,165517
+tpcds,17,1766,224,postgres,tree,libpg_query,1,102,17532,17062
+tpcds,17,1766,224,postgres,ast,legacy_parser extension,1,58,31145,30452
+tpcds,18,1594,270,peglib,recognize,no packrat,1,1,6294750,5810833
+tpcds,18,1594,270,peglib,recognize,packrat,1,1,2264417,2197000
+tpcds,18,1594,270,peglib,tree,packrat,1,1,2608166,2524500
+tpcds,18,1594,270,duckdb,tokenize,,1,208,8613,8357
+tpcds,18,1594,270,duckdb,recognize,,1,4,469062,460760
+tpcds,18,1594,270,duckdb,tree,,1,15,130806,128542
+tpcds,18,1594,270,duckdb,ast,,1,12,169681,167743
+tpcds,18,1594,270,postgres,tree,libpg_query,1,110,16244,15815
+tpcds,18,1594,270,postgres,ast,legacy_parser extension,1,48,38448,36898
+tpcds,19,710,103,peglib,recognize,no packrat,1,1,2530417,2165000
+tpcds,19,710,103,peglib,recognize,packrat,1,2,992938,943042
+tpcds,19,710,103,peglib,tree,packrat,1,1,1251500,1160500
+tpcds,19,710,103,duckdb,tokenize,,1,421,3891,3645
+tpcds,19,710,103,duckdb,recognize,,1,8,234734,229573
+tpcds,19,710,103,duckdb,tree,,1,28,68024,67118
+tpcds,19,710,103,duckdb,ast,,1,23,87649,85330
+tpcds,19,710,103,postgres,tree,libpg_query,1,211,7492,7282
+tpcds,19,710,103,postgres,ast,legacy_parser extension,1,97,17551,16515
+tpcds,20,822,116,peglib,recognize,no packrat,1,1,2421791,2339084
+tpcds,20,822,116,peglib,recognize,packrat,1,2,1013958,972230
+tpcds,20,822,116,peglib,tree,packrat,1,1,1212083,1171500
+tpcds,20,822,116,duckdb,tokenize,,1,406,4251,4085
+tpcds,20,822,116,duckdb,recognize,,1,8,238755,232719
+tpcds,20,822,116,duckdb,tree,,1,28,67978,65455
+tpcds,20,822,116,duckdb,ast,,1,23,86746,84775
+tpcds,20,822,116,postgres,tree,libpg_query,1,197,8445,8019
+tpcds,20,822,116,postgres,ast,legacy_parser extension,1,100,17529,16652
+tpcds,21,1016,153,peglib,recognize,no packrat,1,1,3131041,3037709
+tpcds,21,1016,153,peglib,recognize,packrat,1,1,1486417,1410250
+tpcds,21,1016,153,peglib,tree,packrat,1,1,1711917,1672916
+tpcds,21,1016,153,duckdb,tokenize,,1,313,5810,5584
+tpcds,21,1016,153,duckdb,recognize,,1,6,286070,282354
+tpcds,21,1016,153,duckdb,tree,,1,24,80556,76036
+tpcds,21,1016,153,duckdb,ast,,1,19,103910,102178
+tpcds,21,1016,153,postgres,tree,libpg_query,1,152,10078,9825
+tpcds,21,1016,153,postgres,ast,legacy_parser extension,1,68,26804,25751
+tpcds,22,487,73,peglib,recognize,no packrat,1,1,1753292,1711125
+tpcds,22,487,73,peglib,recognize,packrat,1,3,615805,600500
+tpcds,22,487,73,peglib,tree,packrat,1,2,765646,753208
+tpcds,22,487,73,duckdb,tokenize,,1,564,2888,2818
+tpcds,22,487,73,duckdb,recognize,,1,13,148071,145468
+tpcds,22,487,73,duckdb,tree,,1,43,44860,42744
+tpcds,22,487,73,duckdb,ast,,1,34,58585,56268
+tpcds,22,487,73,postgres,tree,libpg_query,1,294,5256,5036
+tpcds,22,487,73,postgres,ast,legacy_parser extension,1,145,11097,10627
+tpcds,23,2442,332,peglib,recognize,no packrat,1,1,9901125,9373625
+tpcds,23,2442,332,peglib,recognize,packrat,1,1,3502333,3232875
+tpcds,23,2442,332,peglib,tree,packrat,1,1,3994791,3813667
+tpcds,23,2442,332,duckdb,tokenize,,1,145,12972,12254
+tpcds,23,2442,332,duckdb,recognize,,1,3,693097,682319
+tpcds,23,2442,332,duckdb,tree,,1,9,201819,196792
+tpcds,23,2442,332,duckdb,ast,,1,7,268256,261667
+tpcds,23,2442,332,postgres,tree,libpg_query,1,70,24649,23896
+tpcds,23,2442,332,postgres,ast,legacy_parser extension,1,34,53624,52884
+tpcds,24,1265,154,peglib,recognize,no packrat,1,1,4718417,4490541
+tpcds,24,1265,154,peglib,recognize,packrat,1,1,1797500,1720166
+tpcds,24,1265,154,peglib,tree,packrat,1,1,2099541,2041958
+tpcds,24,1265,154,duckdb,tokenize,,1,265,6341,6216
+tpcds,24,1265,154,duckdb,recognize,,1,4,415198,408375
+tpcds,24,1265,154,duckdb,tree,,1,17,115968,113598
+tpcds,24,1265,154,duckdb,ast,,1,13,147401,143952
+tpcds,24,1265,154,postgres,tree,libpg_query,1,127,12552,11921
+tpcds,24,1265,154,postgres,ast,legacy_parser extension,1,57,26093,25587
+tpcds,25,1070,156,peglib,recognize,no packrat,1,1,3136875,3030541
+tpcds,25,1070,156,peglib,recognize,packrat,1,1,1446459,1390250
+tpcds,25,1070,156,peglib,tree,packrat,1,1,1757708,1652834
+tpcds,25,1070,156,duckdb,tokenize,,1,279,6362,5895
+tpcds,25,1070,156,duckdb,recognize,,1,6,317500,307556
+tpcds,25,1070,156,duckdb,tree,,1,19,96993,94888
+tpcds,25,1070,156,duckdb,ast,,1,16,122633,118107
+tpcds,25,1070,156,postgres,tree,libpg_query,1,136,11700,11458
+tpcds,25,1070,156,postgres,ast,legacy_parser extension,1,68,24563,23581
+tpcds,26,585,88,peglib,recognize,no packrat,1,1,2327958,2270750
+tpcds,26,585,88,peglib,recognize,packrat,1,2,812020,799354
+tpcds,26,585,88,peglib,tree,packrat,1,1,1013583,990500
+tpcds,26,585,88,duckdb,tokenize,,1,440,3323,3208
+tpcds,26,585,88,duckdb,recognize,,1,9,198005,190250
+tpcds,26,585,88,duckdb,tree,,1,33,58271,56131
+tpcds,26,585,88,duckdb,ast,,1,26,73551,71288
+tpcds,26,585,88,postgres,tree,libpg_query,1,220,6605,6332
+tpcds,26,585,88,postgres,ast,legacy_parser extension,1,107,13651,12986
+tpcds,27,1551,222,peglib,recognize,no packrat,1,1,7536541,5755625
+tpcds,27,1551,222,peglib,recognize,packrat,1,1,2084375,2005459
+tpcds,27,1551,222,peglib,tree,packrat,1,1,2468292,2388709
+tpcds,27,1551,222,duckdb,tokenize,,1,221,8269,8182
+tpcds,27,1551,222,duckdb,recognize,,1,4,474219,455521
+tpcds,27,1551,222,duckdb,tree,,1,14,132685,128607
+tpcds,27,1551,222,duckdb,ast,,1,12,170680,165587
+tpcds,27,1551,222,postgres,tree,libpg_query,1,104,16272,16058
+tpcds,27,1551,222,postgres,ast,legacy_parser extension,1,61,30156,29396
+tpcds,28,2058,348,peglib,recognize,no packrat,1,1,8375792,8266625
+tpcds,28,2058,348,peglib,recognize,packrat,1,1,2892666,2831208
+tpcds,28,2058,348,peglib,tree,packrat,1,1,3382667,3241416
+tpcds,28,2058,348,duckdb,tokenize,,1,153,12161,11720
+tpcds,28,2058,348,duckdb,recognize,,1,3,582778,569514
+tpcds,28,2058,348,duckdb,tree,,1,11,178678,176212
+tpcds,28,2058,348,duckdb,ast,,1,8,236818,222016
+tpcds,28,2058,348,postgres,tree,libpg_query,1,86,22480,22203
+tpcds,28,2058,348,postgres,ast,legacy_parser extension,1,30,60158,57979
+tpcds,29,1091,160,peglib,recognize,no packrat,1,1,3198584,3110625
+tpcds,29,1091,160,peglib,recognize,packrat,1,1,1486291,1384792
+tpcds,29,1091,160,peglib,tree,packrat,1,1,1721084,1643292
+tpcds,29,1091,160,duckdb,tokenize,,1,266,6091,5880
+tpcds,29,1091,160,duckdb,recognize,,1,6,313597,310667
+tpcds,29,1091,160,duckdb,tree,,1,20,98567,96142
+tpcds,29,1091,160,duckdb,ast,,1,16,124232,120008
+tpcds,29,1091,160,postgres,tree,libpg_query,1,123,12025,11539
+tpcds,29,1091,160,postgres,ast,legacy_parser extension,1,61,25503,24667
+tpcds,30,1509,172,peglib,recognize,no packrat,1,1,4575208,4310166
+tpcds,30,1509,172,peglib,recognize,packrat,1,1,1695167,1592292
+tpcds,30,1509,172,peglib,tree,packrat,1,1,2025375,1912541
+tpcds,30,1509,172,duckdb,tokenize,,1,229,7772,7229
+tpcds,30,1509,172,duckdb,recognize,,1,5,352467,348783
+tpcds,30,1509,172,duckdb,tree,,1,19,106599,105175
+tpcds,30,1509,172,duckdb,ast,,1,15,135497,130572
+tpcds,30,1509,172,postgres,tree,libpg_query,1,130,13781,13650
+tpcds,30,1509,172,postgres,ast,legacy_parser extension,1,73,24775,24333
+tpcds,31,1996,367,peglib,recognize,no packrat,1,1,6237375,5668458
+tpcds,31,1996,367,peglib,recognize,packrat,1,1,2994292,2840500
+tpcds,31,1996,367,peglib,tree,packrat,1,1,3447000,3255875
+tpcds,31,1996,367,duckdb,tokenize,,1,151,11895,11298
+tpcds,31,1996,367,duckdb,recognize,,1,3,611083,589792
+tpcds,31,1996,367,duckdb,tree,,1,11,182932,176951
+tpcds,31,1996,367,duckdb,ast,,1,8,231943,221917
+tpcds,31,1996,367,postgres,tree,libpg_query,1,78,23425,22779
+tpcds,31,1996,367,postgres,ast,legacy_parser extension,1,30,55353,53635
+tpcds,32,535,75,peglib,recognize,no packrat,1,1,1499458,1447917
+tpcds,32,535,75,peglib,recognize,packrat,1,2,702917,663666
+tpcds,32,535,75,peglib,tree,packrat,1,2,830875,786958
+tpcds,32,535,75,duckdb,tokenize,,1,578,2784,2743
+tpcds,32,535,75,duckdb,recognize,,1,13,149016,147426
+tpcds,32,535,75,duckdb,tree,,1,41,46606,45403
+tpcds,32,535,75,duckdb,ast,,1,32,62318,60944
+tpcds,32,535,75,postgres,tree,libpg_query,1,298,5532,5314
+tpcds,32,535,75,postgres,ast,legacy_parser extension,1,129,12693,12187
+tpcds,33,1672,230,peglib,recognize,no packrat,1,1,6104917,5641666
+tpcds,33,1672,230,peglib,recognize,packrat,1,1,2272875,2211292
+tpcds,33,1672,230,peglib,tree,packrat,1,1,2662625,2610500
+tpcds,33,1672,230,duckdb,tokenize,,1,205,9175,8841
+tpcds,33,1672,230,duckdb,recognize,,1,4,491281,478927
+tpcds,33,1672,230,duckdb,tree,,1,14,146027,141438
+tpcds,33,1672,230,duckdb,ast,,1,9,185986,179287
+tpcds,33,1672,230,postgres,tree,libpg_query,1,78,18097,17404
+tpcds,33,1672,230,postgres,ast,legacy_parser extension,1,43,35225,33482
+tpcds,34,1451,186,peglib,recognize,no packrat,1,1,3628625,3509542
+tpcds,34,1451,186,peglib,recognize,packrat,1,1,1581417,1535500
+tpcds,34,1451,186,peglib,tree,packrat,1,1,1872791,1823291
+tpcds,34,1451,186,duckdb,tokenize,,1,235,7437,6935
+tpcds,34,1451,186,duckdb,recognize,,1,6,319000,313083
+tpcds,34,1451,186,duckdb,tree,,1,20,96475,93227
+tpcds,34,1451,186,duckdb,ast,,1,16,122188,117971
+tpcds,34,1451,186,postgres,tree,libpg_query,1,122,13083,12688
+tpcds,34,1451,186,postgres,ast,legacy_parser extension,1,56,29396,28741
+tpcds,35,1747,231,peglib,recognize,no packrat,1,1,7865417,7455750
+tpcds,35,1747,231,peglib,recognize,packrat,1,1,2593417,2389584
+tpcds,35,1747,231,peglib,tree,packrat,1,1,3073416,2936875
+tpcds,35,1747,231,duckdb,tokenize,,1,200,8789,8321
+tpcds,35,1747,231,duckdb,recognize,,1,3,488653,485139
+tpcds,35,1747,231,duckdb,tree,,1,13,144026,139792
+tpcds,35,1747,231,duckdb,ast,,1,10,178712,177275
+tpcds,35,1747,231,postgres,tree,libpg_query,1,104,16851,16345
+tpcds,35,1747,231,postgres,ast,legacy_parser extension,1,53,32888,31600
+tpcds,36,1846,249,peglib,recognize,no packrat,1,1,4905791,4585542
+tpcds,36,1846,249,peglib,recognize,packrat,1,1,2174333,2069833
+tpcds,36,1846,249,peglib,tree,packrat,1,1,2580083,2460875
+tpcds,36,1846,249,duckdb,tokenize,,1,169,9747,9069
+tpcds,36,1846,249,duckdb,recognize,,1,4,437854,426740
+tpcds,36,1846,249,duckdb,tree,,1,15,125467,124281
+tpcds,36,1846,249,duckdb,ast,,1,12,167358,161226
+tpcds,36,1846,249,postgres,tree,libpg_query,1,93,18718,18398
+tpcds,36,1846,249,postgres,ast,legacy_parser extension,1,46,38849,37842
+tpcds,37,594,82,peglib,recognize,no packrat,1,1,1450375,1392417
+tpcds,37,594,82,peglib,recognize,packrat,1,3,685389,660847
+tpcds,37,594,82,peglib,tree,packrat,1,2,847625,804980
+tpcds,37,594,82,duckdb,tokenize,,1,551,3165,3099
+tpcds,37,594,82,duckdb,recognize,,1,12,160094,158163
+tpcds,37,594,82,duckdb,tree,,1,42,47683,45571
+tpcds,37,594,82,duckdb,ast,,1,31,62571,60297
+tpcds,37,594,82,postgres,tree,libpg_query,1,282,5947,5611
+tpcds,37,594,82,postgres,ast,legacy_parser extension,1,124,14754,14061
+tpcds,38,1034,126,peglib,recognize,no packrat,1,1,2610333,2437083
+tpcds,38,1034,126,peglib,recognize,packrat,1,1,1101250,992208
+tpcds,38,1034,126,peglib,tree,packrat,1,1,1316375,1188167
+tpcds,38,1034,126,duckdb,tokenize,,1,317,5339,4972
+tpcds,38,1034,126,duckdb,recognize,,1,9,221662,215810
+tpcds,38,1034,126,duckdb,tree,,1,28,70464,69360
+tpcds,38,1034,126,duckdb,ast,,1,19,91969,88134
+tpcds,38,1034,126,postgres,tree,libpg_query,1,177,9831,9538
+tpcds,38,1034,126,postgres,ast,legacy_parser extension,1,88,19870,19410
+tpcds,39,1548,235,peglib,recognize,no packrat,1,1,5959791,5663459
+tpcds,39,1548,235,peglib,recognize,packrat,1,1,2091958,2004250
+tpcds,39,1548,235,peglib,tree,packrat,1,1,2526917,2460875
+tpcds,39,1548,235,duckdb,tokenize,,1,202,9033,8674
+tpcds,39,1548,235,duckdb,recognize,,1,4,428823,408219
+tpcds,39,1548,235,duckdb,tree,,1,12,130205,127764
+tpcds,39,1548,235,duckdb,ast,,1,10,163688,157162
+tpcds,39,1548,235,postgres,tree,libpg_query,1,90,16699,16150
+tpcds,39,1548,235,postgres,ast,legacy_parser extension,1,47,31889,31059
+tpcds,40,1049,144,peglib,recognize,no packrat,1,1,2903500,2866542
+tpcds,40,1049,144,peglib,recognize,packrat,1,1,1355125,1329334
+tpcds,40,1049,144,peglib,tree,packrat,1,1,1615750,1564917
+tpcds,40,1049,144,duckdb,tokenize,,1,331,5670,5400
+tpcds,40,1049,144,duckdb,recognize,,1,7,280161,273607
+tpcds,40,1049,144,duckdb,tree,,1,25,82058,78570
+tpcds,40,1049,144,duckdb,ast,,1,18,104502,101854
+tpcds,40,1049,144,postgres,tree,libpg_query,1,169,10190,9841
+tpcds,40,1049,144,postgres,ast,legacy_parser extension,1,79,22033,21520
+tpcds,41,2747,345,peglib,recognize,no packrat,1,1,6227833,5736125
+tpcds,41,2747,345,peglib,recognize,packrat,1,1,4105667,3960041
+tpcds,41,2747,345,peglib,tree,packrat,1,1,4737167,4602291
+tpcds,41,2747,345,duckdb,tokenize,,1,164,11700,10837
+tpcds,41,2747,345,duckdb,recognize,,1,2,647646,636250
+tpcds,41,2747,345,duckdb,tree,,1,11,178830,176621
+tpcds,41,2747,345,duckdb,ast,,1,8,232823,227641
+tpcds,41,2747,345,postgres,tree,libpg_query,1,84,23163,22421
+tpcds,41,2747,345,postgres,ast,legacy_parser extension,1,39,49520,48989
+tpcds,42,556,94,peglib,recognize,no packrat,1,1,1605917,1548833
+tpcds,42,556,94,peglib,recognize,packrat,1,3,675347,652542
+tpcds,42,556,94,peglib,tree,packrat,1,2,832146,821250
+tpcds,42,556,94,duckdb,tokenize,,1,545,3257,3126
+tpcds,42,556,94,duckdb,recognize,,1,12,155611,151528
+tpcds,42,556,94,duckdb,tree,,1,40,48621,47651
+tpcds,42,556,94,duckdb,ast,,1,29,61641,60091
+tpcds,42,556,94,postgres,tree,libpg_query,1,272,6320,6212
+tpcds,42,556,94,postgres,ast,legacy_parser extension,1,144,12893,12175
+tpcds,43,1349,174,peglib,recognize,no packrat,1,1,7835042,6888833
+tpcds,43,1349,174,peglib,recognize,packrat,1,1,2022542,1787583
+tpcds,43,1349,174,peglib,tree,packrat,1,1,2594834,2099916
+tpcds,43,1349,174,duckdb,tokenize,,1,277,6987,6440
+tpcds,43,1349,174,duckdb,recognize,,1,5,412058,397333
+tpcds,43,1349,174,duckdb,tree,,1,18,109634,106264
+tpcds,43,1349,174,duckdb,ast,,1,14,138196,133601
+tpcds,43,1349,174,postgres,tree,libpg_query,1,154,11805,11623
+tpcds,43,1349,174,postgres,ast,legacy_parser extension,1,71,21661,21335
+tpcds,44,1464,223,peglib,recognize,no packrat,1,1,5473500,5048375
+tpcds,44,1464,223,peglib,recognize,packrat,1,1,2079458,1994459
+tpcds,44,1464,223,peglib,tree,packrat,1,1,2446792,2355292
+tpcds,44,1464,223,duckdb,tokenize,,1,222,8576,8189
+tpcds,44,1464,223,duckdb,recognize,,1,5,406308,396450
+tpcds,44,1464,223,duckdb,tree,,1,16,114771,114104
+tpcds,44,1464,223,duckdb,ast,,1,13,156769,152170
+tpcds,44,1464,223,postgres,tree,libpg_query,1,105,16073,15612
+tpcds,44,1464,223,postgres,ast,legacy_parser extension,1,57,31431,30093
+tpcds,45,1161,121,peglib,recognize,no packrat,1,1,2275541,2145583
+tpcds,45,1161,121,peglib,recognize,packrat,1,1,1114250,1056833
+tpcds,45,1161,121,peglib,tree,packrat,1,1,1323958,1291000
+tpcds,45,1161,121,duckdb,tokenize,,1,301,4625,4360
+tpcds,45,1161,121,duckdb,recognize,,1,7,238702,232643
+tpcds,45,1161,121,duckdb,tree,,1,23,70225,67223
+tpcds,45,1161,121,duckdb,ast,,1,20,88404,85794
+tpcds,45,1161,121,postgres,tree,libpg_query,1,160,8002,7878
+tpcds,45,1161,121,postgres,ast,legacy_parser extension,1,76,20814,19972
+tpcds,46,1477,186,peglib,recognize,no packrat,1,1,4266333,4086625
+tpcds,46,1477,186,peglib,recognize,packrat,1,1,1660125,1576042
+tpcds,46,1477,186,peglib,tree,packrat,1,1,1980292,1883542
+tpcds,46,1477,186,duckdb,tokenize,,1,226,7769,7093
+tpcds,46,1477,186,duckdb,recognize,,1,5,341633,332408
+tpcds,46,1477,186,duckdb,tree,,1,19,103614,98860
+tpcds,46,1477,186,duckdb,ast,,1,15,127647,123381
+tpcds,46,1477,186,postgres,tree,libpg_query,1,126,13673,13443
+tpcds,46,1477,186,postgres,ast,legacy_parser extension,1,64,27036,26424
+tpcds,47,2475,331,peglib,recognize,no packrat,1,1,10613875,8468750
+tpcds,47,2475,331,peglib,recognize,packrat,1,1,3258666,3180500
+tpcds,47,2475,331,peglib,tree,packrat,1,1,3770167,3686000
+tpcds,47,2475,331,duckdb,tokenize,,1,153,12687,12356
+tpcds,47,2475,331,duckdb,recognize,,1,3,645917,629167
+tpcds,47,2475,331,duckdb,tree,,1,10,190388,183125
+tpcds,47,2475,331,duckdb,ast,,1,8,240047,226323
+tpcds,47,2475,331,postgres,tree,libpg_query,1,76,24236,23186
+tpcds,47,2475,331,postgres,ast,legacy_parser extension,1,36,53481,49319
+tpcds,48,1427,171,peglib,recognize,no packrat,1,1,3295333,3129500
+tpcds,48,1427,171,peglib,recognize,packrat,1,1,1723458,1636084
+tpcds,48,1427,171,peglib,tree,packrat,1,1,1987959,1937500
+tpcds,48,1427,171,duckdb,tokenize,,1,307,6417,6075
+tpcds,48,1427,171,duckdb,recognize,,1,6,321993,317403
+tpcds,48,1427,171,duckdb,tree,,1,20,97448,94092
+tpcds,48,1427,171,duckdb,ast,,1,16,124872,122125
+tpcds,48,1427,171,postgres,tree,libpg_query,1,139,12254,11845
+tpcds,48,1427,171,postgres,ast,legacy_parser extension,1,56,32576,31197
+tpcds,49,4355,766,peglib,recognize,no packrat,1,1,17501541,15099042
+tpcds,49,4355,766,peglib,recognize,packrat,1,1,9621250,7886500
+tpcds,49,4355,766,peglib,tree,packrat,1,1,8908333,8815458
+tpcds,49,4355,766,duckdb,tokenize,,1,76,25445,25192
+tpcds,49,4355,766,duckdb,recognize,,1,1,1171167,1130667
+tpcds,49,4355,766,duckdb,tree,,1,6,334722,331806
+tpcds,49,4355,766,duckdb,ast,,1,4,443469,428864
+tpcds,49,4355,766,postgres,tree,libpg_query,1,35,48945,47913
+tpcds,49,4355,766,postgres,ast,legacy_parser extension,1,18,101454,100090
+tpcds,50,1905,242,peglib,recognize,no packrat,1,1,7483917,7062042
+tpcds,50,1905,242,peglib,recognize,packrat,1,1,2724916,2550416
+tpcds,50,1905,242,peglib,tree,packrat,1,1,3189584,3060250
+tpcds,50,1905,242,duckdb,tokenize,,1,209,9255,8495
+tpcds,50,1905,242,duckdb,recognize,,1,3,552430,545250
+tpcds,50,1905,242,duckdb,tree,,1,13,149904,147256
+tpcds,50,1905,242,duckdb,ast,,1,10,192517,188992
+tpcds,50,1905,242,postgres,tree,libpg_query,1,95,17695,17086
+tpcds,50,1905,242,postgres,ast,legacy_parser extension,1,45,39170,37982
+tpcds,51,2001,275,peglib,recognize,no packrat,1,1,7222792,6530334
+tpcds,51,2001,275,peglib,recognize,packrat,1,1,2345458,2236709
+tpcds,51,2001,275,peglib,tree,packrat,1,1,2907500,2699750
+tpcds,51,2001,275,duckdb,tokenize,,1,157,11793,11589
+tpcds,51,2001,275,duckdb,recognize,,1,4,462208,442260
+tpcds,51,2001,275,duckdb,tree,,1,14,138458,134330
+tpcds,51,2001,275,duckdb,ast,,1,11,176121,170144
+tpcds,51,2001,275,postgres,tree,libpg_query,1,85,20808,20522
+tpcds,51,2001,275,postgres,ast,legacy_parser extension,1,36,34686,34135
+tpcds,52,471,88,peglib,recognize,no packrat,1,1,1420875,1330083
+tpcds,52,471,88,peglib,recognize,packrat,1,3,618236,588403
+tpcds,52,471,88,peglib,tree,packrat,1,2,782230,725084
+tpcds,52,471,88,duckdb,tokenize,,1,558,3031,2980
+tpcds,52,471,88,duckdb,recognize,,1,14,144226,138830
+tpcds,52,471,88,duckdb,tree,,1,43,45888,44088
+tpcds,52,471,88,duckdb,ast,,1,34,58610,55941
+tpcds,52,471,88,postgres,tree,libpg_query,1,289,5720,5616
+tpcds,52,471,88,postgres,ast,legacy_parser extension,1,150,11481,11158
+tpcds,53,1810,209,peglib,recognize,no packrat,1,1,4105417,3862792
+tpcds,53,1810,209,peglib,recognize,packrat,1,1,1853416,1778208
+tpcds,53,1810,209,peglib,tree,packrat,1,1,2171083,2090000
+tpcds,53,1810,209,duckdb,tokenize,,1,228,7185,7138
+tpcds,53,1810,209,duckdb,recognize,,1,5,363492,356092
+tpcds,53,1810,209,duckdb,tree,,1,19,99770,95761
+tpcds,53,1810,209,duckdb,ast,,1,15,129853,126383
+tpcds,53,1810,209,postgres,tree,libpg_query,1,123,13138,12681
+tpcds,53,1810,209,postgres,ast,legacy_parser extension,1,49,35924,34355
+tpcds,54,1667,215,peglib,recognize,no packrat,1,1,4956167,4322958
+tpcds,54,1667,215,peglib,recognize,packrat,1,1,2069875,1922667
+tpcds,54,1667,215,peglib,tree,packrat,1,1,2433500,2307708
+tpcds,54,1667,215,duckdb,tokenize,,1,204,10205,8926
+tpcds,54,1667,215,duckdb,recognize,,1,4,433573,422125
+tpcds,54,1667,215,duckdb,tree,,1,15,131903,125500
+tpcds,54,1667,215,duckdb,ast,,1,11,169746,164841
+tpcds,54,1667,215,postgres,tree,libpg_query,1,91,17332,16803
+tpcds,54,1667,215,postgres,ast,legacy_parser extension,1,50,35185,33648
+tpcds,55,348,53,peglib,recognize,no packrat,1,1,1179000,1119958
+tpcds,55,348,53,peglib,recognize,packrat,1,4,479698,451010
+tpcds,55,348,53,peglib,tree,packrat,1,3,576945,564222
+tpcds,55,348,53,duckdb,tokenize,,1,813,2078,1882
+tpcds,55,348,53,duckdb,recognize,,1,16,116747,115393
+tpcds,55,348,53,duckdb,tree,,1,54,35846,34763
+tpcds,55,348,53,duckdb,ast,,1,41,46810,44683
+tpcds,55,348,53,postgres,tree,libpg_query,1,406,3786,3722
+tpcds,55,348,53,postgres,ast,legacy_parser extension,1,201,8853,8523
+tpcds,56,1859,248,peglib,recognize,no packrat,1,1,5951208,5757042
+tpcds,56,1859,248,peglib,recognize,packrat,1,1,2420709,2308000
+tpcds,56,1859,248,peglib,tree,packrat,1,1,2831166,2773875
+tpcds,56,1859,248,duckdb,tokenize,,1,197,9546,9415
+tpcds,56,1859,248,duckdb,recognize,,1,3,516805,510847
+tpcds,56,1859,248,duckdb,tree,,1,13,149250,144186
+tpcds,56,1859,248,duckdb,ast,,1,10,196383,189879
+tpcds,56,1859,248,postgres,tree,libpg_query,1,98,18760,18261
+tpcds,56,1859,248,postgres,ast,legacy_parser extension,1,51,36551,35964
+tpcds,57,2124,303,peglib,recognize,no packrat,1,1,7468083,7315125
+tpcds,57,2124,303,peglib,recognize,packrat,1,1,2846625,2700250
+tpcds,57,2124,303,peglib,tree,packrat,1,1,3364000,3167750
+tpcds,57,2124,303,duckdb,tokenize,,1,164,11239,10531
+tpcds,57,2124,303,duckdb,recognize,,1,3,598861,585556
+tpcds,57,2124,303,duckdb,tree,,1,12,173101,163094
+tpcds,57,2124,303,duckdb,ast,,1,9,222944,207394
+tpcds,57,2124,303,postgres,tree,libpg_query,1,83,20703,20326
+tpcds,57,2124,303,postgres,ast,legacy_parser extension,1,39,45126,44252
+tpcds,58,2252,328,peglib,recognize,no packrat,1,1,9515542,8481750
+tpcds,58,2252,328,peglib,recognize,packrat,1,1,3365292,3190208
+tpcds,58,2252,328,peglib,tree,packrat,1,1,3931083,3736125
+tpcds,58,2252,328,duckdb,tokenize,,1,134,13013,12724
+tpcds,58,2252,328,duckdb,recognize,,1,2,648020,634084
+tpcds,58,2252,328,duckdb,tree,,1,9,204366,197704
+tpcds,58,2252,328,duckdb,ast,,1,7,265339,255613
+tpcds,58,2252,328,postgres,tree,libpg_query,1,76,23993,23492
+tpcds,58,2252,328,postgres,ast,legacy_parser extension,1,33,56596,55588
+tpcds,59,2783,344,peglib,recognize,no packrat,1,1,13721458,12858083
+tpcds,59,2783,344,peglib,recognize,packrat,1,1,3807292,3662083
+tpcds,59,2783,344,peglib,tree,packrat,1,1,4349625,4046250
+tpcds,59,2783,344,duckdb,tokenize,,1,131,14867,14479
+tpcds,59,2783,344,duckdb,recognize,,1,2,697916,688354
+tpcds,59,2783,344,duckdb,tree,,1,10,204375,189175
+tpcds,59,2783,344,duckdb,ast,,1,8,250984,243536
+tpcds,59,2783,344,postgres,tree,libpg_query,1,70,24854,24516
+tpcds,59,2783,344,postgres,ast,legacy_parser extension,1,41,44907,43670
+tpcds,60,1601,226,peglib,recognize,no packrat,1,1,6164791,5647041
+tpcds,60,1601,226,peglib,recognize,packrat,1,1,2241542,2195542
+tpcds,60,1601,226,peglib,tree,packrat,1,1,2640333,2593417
+tpcds,60,1601,226,duckdb,tokenize,,1,204,8914,8333
+tpcds,60,1601,226,duckdb,recognize,,1,4,507177,489188
+tpcds,60,1601,226,duckdb,tree,,1,13,144619,140785
+tpcds,60,1601,226,duckdb,ast,,1,11,190239,180477
+tpcds,60,1601,226,postgres,tree,libpg_query,1,106,17240,17029
+tpcds,60,1601,226,postgres,ast,legacy_parser extension,1,56,34094,33071
+tpcds,61,1281,187,peglib,recognize,no packrat,1,1,4254042,4127875
+tpcds,61,1281,187,peglib,recognize,packrat,1,1,1841416,1712917
+tpcds,61,1281,187,peglib,tree,packrat,1,1,2215292,2072166
+tpcds,61,1281,187,duckdb,tokenize,,1,256,7153,6775
+tpcds,61,1281,187,duckdb,recognize,,1,5,398475,384158
+tpcds,61,1281,187,duckdb,tree,,1,16,115190,111542
+tpcds,61,1281,187,duckdb,ast,,1,13,144353,141269
+tpcds,61,1281,187,postgres,tree,libpg_query,1,129,13314,13198
+tpcds,61,1281,187,postgres,ast,legacy_parser extension,1,60,30359,29992
+tpcds,62,1423,204,peglib,recognize,no packrat,1,1,4949458,4788834
+tpcds,62,1423,204,peglib,recognize,packrat,1,1,1917209,1868917
+tpcds,62,1423,204,peglib,tree,packrat,1,1,2212583,2205583
+tpcds,62,1423,204,duckdb,tokenize,,1,231,7528,7264
+tpcds,62,1423,204,duckdb,recognize,,1,5,418317,399592
+tpcds,62,1423,204,duckdb,tree,,1,15,114536,109067
+tpcds,62,1423,204,duckdb,ast,,1,13,140776,137894
+tpcds,62,1423,204,postgres,tree,libpg_query,1,129,12613,12472
+tpcds,62,1423,204,postgres,ast,legacy_parser extension,1,56,31217,30560
+tpcds,63,1798,209,peglib,recognize,no packrat,1,1,3919083,3719667
+tpcds,63,1798,209,peglib,recognize,packrat,1,1,1768000,1747167
+tpcds,63,1798,209,peglib,tree,packrat,1,1,2069167,2009042
+tpcds,63,1798,209,duckdb,tokenize,,1,243,6889,6669
+tpcds,63,1798,209,duckdb,recognize,,1,5,359058,352875
+tpcds,63,1798,209,duckdb,tree,,1,19,99721,96599
+tpcds,63,1798,209,duckdb,ast,,1,14,133149,126857
+tpcds,63,1798,209,postgres,tree,libpg_query,1,120,12802,12693
+tpcds,63,1798,209,postgres,ast,legacy_parser extension,1,47,35105,34509
+tpcds,64,3785,569,peglib,recognize,no packrat,1,1,15051833,14101875
+tpcds,64,3785,569,peglib,recognize,packrat,1,1,5743958,5191583
+tpcds,64,3785,569,peglib,tree,packrat,1,1,6614125,6276542
+tpcds,64,3785,569,duckdb,tokenize,,1,86,21301,20481
+tpcds,64,3785,569,duckdb,recognize,,1,2,973958,961000
+tpcds,64,3785,569,duckdb,tree,,1,6,298799,293715
+tpcds,64,3785,569,duckdb,ast,,1,5,376975,374100
+tpcds,64,3785,569,postgres,tree,libpg_query,1,43,43199,42295
+tpcds,64,3785,569,postgres,ast,legacy_parser extension,1,23,79165,76143
+tpcds,65,1064,157,peglib,recognize,no packrat,1,1,3670792,3199458
+tpcds,65,1064,157,peglib,recognize,packrat,1,1,1416166,1355125
+tpcds,65,1064,157,peglib,tree,packrat,1,1,1670375,1619167
+tpcds,65,1064,157,duckdb,tokenize,,1,298,6281,5865
+tpcds,65,1064,157,duckdb,recognize,,1,6,309312,301188
+tpcds,65,1064,157,duckdb,tree,,1,21,94300,90569
+tpcds,65,1064,157,duckdb,ast,,1,17,122059,118419
+tpcds,65,1064,157,postgres,tree,libpg_query,1,144,12144,11777
+tpcds,65,1064,157,postgres,ast,legacy_parser extension,1,74,23732,23133
+tpcds,66,7433,1350,peglib,recognize,no packrat,1,1,73130667,61821083
+tpcds,66,7433,1350,peglib,recognize,packrat,1,1,22428167,21315166
+tpcds,66,7433,1350,peglib,tree,packrat,1,1,25566666,24807416
+tpcds,66,7433,1350,duckdb,tokenize,,1,46,45306,42937
+tpcds,66,7433,1350,duckdb,recognize,,1,1,3104417,3008667
+tpcds,66,7433,1350,duckdb,tree,,1,2,796500,780792
+tpcds,66,7433,1350,duckdb,ast,,1,1,1036166,1017375
+tpcds,66,7433,1350,postgres,tree,libpg_query,1,17,94449,89066
+tpcds,66,7433,1350,postgres,ast,legacy_parser extension,1,8,196115,192672
+tpcds,67,1225,169,peglib,recognize,no packrat,1,1,4440250,4323917
+tpcds,67,1225,169,peglib,recognize,packrat,1,1,1717125,1646875
+tpcds,67,1225,169,peglib,tree,packrat,1,1,2047917,1936709
+tpcds,67,1225,169,duckdb,tokenize,,1,248,6785,6336
+tpcds,67,1225,169,duckdb,recognize,,1,5,360967,353358
+tpcds,67,1225,169,duckdb,tree,,1,19,104939,102077
+tpcds,67,1225,169,duckdb,ast,,1,15,133294,128906
+tpcds,67,1225,169,postgres,tree,libpg_query,1,123,12275,12174
+tpcds,67,1225,169,postgres,ast,legacy_parser extension,1,67,24081,23493
+tpcds,68,1455,180,peglib,recognize,no packrat,1,1,4704416,4515125
+tpcds,68,1455,180,peglib,recognize,packrat,1,1,1645459,1583125
+tpcds,68,1455,180,peglib,tree,packrat,1,1,1979792,1921125
+tpcds,68,1455,180,duckdb,tokenize,,1,228,7545,6963
+tpcds,68,1455,180,duckdb,recognize,,1,6,337424,325917
+tpcds,68,1455,180,duckdb,tree,,1,19,100976,99239
+tpcds,68,1455,180,duckdb,ast,,1,15,129200,126689
+tpcds,68,1455,180,postgres,tree,libpg_query,1,113,13598,13340
+tpcds,68,1455,180,postgres,ast,legacy_parser extension,1,60,27385,26817
+tpcds,69,1437,186,peglib,recognize,no packrat,1,1,4127500,4058250
+tpcds,69,1437,186,peglib,recognize,packrat,1,1,1862041,1705042
+tpcds,69,1437,186,peglib,tree,packrat,1,1,2160500,2056500
+tpcds,69,1437,186,duckdb,tokenize,,1,240,7413,6877
+tpcds,69,1437,186,duckdb,recognize,,1,5,370950,363367
+tpcds,69,1437,186,duckdb,tree,,1,18,112204,109331
+tpcds,69,1437,186,duckdb,ast,,1,14,144199,140940
+tpcds,69,1437,186,postgres,tree,libpg_query,1,132,13270,12651
+tpcds,69,1437,186,postgres,ast,legacy_parser extension,1,61,29016,28460
+tpcds,70,1259,187,peglib,recognize,no packrat,1,1,3338042,3294709
+tpcds,70,1259,187,peglib,recognize,packrat,1,1,1795667,1720208
+tpcds,70,1259,187,peglib,tree,packrat,1,1,2131458,2026584
+tpcds,70,1259,187,duckdb,tokenize,,1,244,7170,6887
+tpcds,70,1259,187,duckdb,recognize,,1,5,378717,359975
+tpcds,70,1259,187,duckdb,tree,,1,18,108109,104620
+tpcds,70,1259,187,duckdb,ast,,1,13,135013,131240
+tpcds,70,1259,187,postgres,tree,libpg_query,1,120,13315,13053
+tpcds,70,1259,187,postgres,ast,legacy_parser extension,1,66,25621,25001
+tpcds,71,1401,175,peglib,recognize,no packrat,1,1,3498291,3277875
+tpcds,71,1401,175,peglib,recognize,packrat,1,1,1614417,1523583
+tpcds,71,1401,175,peglib,tree,packrat,1,1,1924875,1835500
+tpcds,71,1401,175,duckdb,tokenize,,1,222,7649,7290
+tpcds,71,1401,175,duckdb,recognize,,1,5,352892,345375
+tpcds,71,1401,175,duckdb,tree,,1,18,106032,103018
+tpcds,71,1401,175,duckdb,ast,,1,12,135090,130347
+tpcds,71,1401,175,postgres,tree,libpg_query,1,125,13802,13277
+tpcds,71,1401,175,postgres,ast,legacy_parser extension,1,69,25397,24594
+tpcds,72,1404,213,peglib,recognize,no packrat,1,1,4824500,4635459
+tpcds,72,1404,213,peglib,recognize,packrat,1,1,2021292,1992667
+tpcds,72,1404,213,peglib,tree,packrat,1,1,2375584,2313750
+tpcds,72,1404,213,duckdb,tokenize,,1,224,8008,7572
+tpcds,72,1404,213,duckdb,recognize,,1,4,400562,393750
+tpcds,72,1404,213,duckdb,tree,,1,14,125179,119613
+tpcds,72,1404,213,duckdb,ast,,1,13,155301,150894
+tpcds,72,1404,213,postgres,tree,libpg_query,1,115,15394,14887
+tpcds,72,1404,213,postgres,ast,legacy_parser extension,1,64,27305,26680
+tpcds,73,1440,173,peglib,recognize,no packrat,1,1,3484375,3221458
+tpcds,73,1440,173,peglib,recognize,packrat,1,1,1521500,1426791
+tpcds,73,1440,173,peglib,tree,packrat,1,1,1801917,1733584
+tpcds,73,1440,173,duckdb,tokenize,,1,253,6876,6584
+tpcds,73,1440,173,duckdb,recognize,,1,6,305840,297139
+tpcds,73,1440,173,duckdb,tree,,1,21,93389,89812
+tpcds,73,1440,173,duckdb,ast,,1,17,118929,112299
+tpcds,73,1440,173,postgres,tree,libpg_query,1,129,12371,12027
+tpcds,73,1440,173,postgres,ast,legacy_parser extension,1,62,28018,26497
+tpcds,74,2153,276,peglib,recognize,no packrat,1,1,5827708,5285541
+tpcds,74,2153,276,peglib,recognize,packrat,1,1,2509292,2348833
+tpcds,74,2153,276,peglib,tree,packrat,1,1,3041666,2796375
+tpcds,74,2153,276,duckdb,tokenize,,1,154,11950,11461
+tpcds,74,2153,276,duckdb,recognize,,1,4,479406,472198
+tpcds,74,2153,276,duckdb,tree,,1,13,148513,141933
+tpcds,74,2153,276,duckdb,ast,,1,10,186921,181942
+tpcds,74,2153,276,postgres,tree,libpg_query,1,85,20621,20084
+tpcds,74,2153,276,postgres,ast,legacy_parser extension,1,41,42837,42072
+tpcds,75,2941,386,peglib,recognize,no packrat,1,1,10175125,9459584
+tpcds,75,2941,386,peglib,recognize,packrat,1,1,4120292,3862291
+tpcds,75,2941,386,peglib,tree,packrat,1,1,4774042,4608459
+tpcds,75,2941,386,duckdb,tokenize,,1,121,16319,15733
+tpcds,75,2941,386,duckdb,recognize,,1,2,736271,724208
+tpcds,75,2941,386,duckdb,tree,,1,8,229714,221797
+tpcds,75,2941,386,duckdb,ast,,1,6,301639,287021
+tpcds,75,2941,386,postgres,tree,libpg_query,1,61,29438,28361
+tpcds,75,2941,386,postgres,ast,legacy_parser extension,1,30,59096,56950
+tpcds,76,1710,168,peglib,recognize,no packrat,1,1,4639375,4511958
+tpcds,76,1710,168,peglib,recognize,packrat,1,1,1727458,1657375
+tpcds,76,1710,168,peglib,tree,packrat,1,1,2002166,1958625
+tpcds,76,1710,168,duckdb,tokenize,,1,235,7639,7531
+tpcds,76,1710,168,duckdb,recognize,,1,5,362400,357167
+tpcds,76,1710,168,duckdb,tree,,1,18,108134,104576
+tpcds,76,1710,168,duckdb,ast,,1,14,139301,133217
+tpcds,76,1710,168,postgres,tree,libpg_query,1,107,15034,13822
+tpcds,76,1710,168,postgres,ast,legacy_parser extension,1,64,25590,23732
+tpcds,77,3130,486,peglib,recognize,no packrat,1,1,10658042,10021250
+tpcds,77,3130,486,peglib,recognize,packrat,1,1,4725083,4407833
+tpcds,77,3130,486,peglib,tree,packrat,1,1,5462333,5197250
+tpcds,77,3130,486,duckdb,tokenize,,1,112,17355,16727
+tpcds,77,3130,486,duckdb,recognize,,1,2,882312,853042
+tpcds,77,3130,486,duckdb,tree,,1,7,251488,247250
+tpcds,77,3130,486,duckdb,ast,,1,6,337875,327604
+tpcds,77,3130,486,postgres,tree,libpg_query,1,49,36685,35463
+tpcds,77,3130,486,postgres,ast,legacy_parser extension,1,28,64734,60564
+tpcds,78,2514,361,peglib,recognize,no packrat,1,1,11615084,11054792
+tpcds,78,2514,361,peglib,recognize,packrat,1,1,4016458,3785167
+tpcds,78,2514,361,peglib,tree,packrat,1,1,4680333,4572958
+tpcds,78,2514,361,duckdb,tokenize,,1,123,14483,13983
+tpcds,78,2514,361,duckdb,recognize,,1,2,782062,763854
+tpcds,78,2514,361,duckdb,tree,,1,9,225542,222583
+tpcds,78,2514,361,duckdb,ast,,1,7,286244,275905
+tpcds,78,2514,361,postgres,tree,libpg_query,1,67,27397,26805
+tpcds,78,2514,361,postgres,ast,legacy_parser extension,1,36,53278,50660
+tpcds,79,1189,166,peglib,recognize,no packrat,1,1,3724042,3469709
+tpcds,79,1189,166,peglib,recognize,packrat,1,1,1457125,1372000
+tpcds,79,1189,166,peglib,tree,packrat,1,1,1717792,1657375
+tpcds,79,1189,166,duckdb,tokenize,,1,272,6380,6004
+tpcds,79,1189,166,duckdb,recognize,,1,6,306667,295507
+tpcds,79,1189,166,duckdb,tree,,1,22,89299,86568
+tpcds,79,1189,166,duckdb,ast,,1,17,116951,111556
+tpcds,79,1189,166,postgres,tree,libpg_query,1,140,11412,11230
+tpcds,79,1189,166,postgres,ast,legacy_parser extension,1,67,25228,24725
+tpcds,80,3675,442,peglib,recognize,no packrat,1,1,11250667,11036750
+tpcds,80,3675,442,peglib,recognize,packrat,1,1,4925291,4794292
+tpcds,80,3675,442,peglib,tree,packrat,1,1,5686125,5493708
+tpcds,80,3675,442,duckdb,tokenize,,1,113,17659,16836
+tpcds,80,3675,442,duckdb,recognize,,1,2,876979,855646
+tpcds,80,3675,442,duckdb,tree,,1,8,256000,245484
+tpcds,80,3675,442,duckdb,ast,,1,6,327889,320701
+tpcds,80,3675,442,postgres,tree,libpg_query,1,52,35046,34143
+tpcds,80,3675,442,postgres,ast,legacy_parser extension,1,27,65852,63296
+tpcds,81,1461,158,peglib,recognize,no packrat,1,1,4854333,4816917
+tpcds,81,1461,158,peglib,recognize,packrat,1,1,1788000,1695500
+tpcds,81,1461,158,peglib,tree,packrat,1,1,2122709,2034875
+tpcds,81,1461,158,duckdb,tokenize,,1,247,7213,6724
+tpcds,81,1461,158,duckdb,recognize,,1,5,399583,388692
+tpcds,81,1461,158,duckdb,tree,,1,17,114326,109529
+tpcds,81,1461,158,duckdb,ast,,1,14,141467,138554
+tpcds,81,1461,158,postgres,tree,libpg_query,1,125,13339,13096
+tpcds,81,1461,158,postgres,ast,legacy_parser extension,1,68,24789,23713
+tpcds,82,593,82,peglib,recognize,no packrat,1,1,1522291,1406291
+tpcds,82,593,82,peglib,recognize,packrat,1,2,713584,673208
+tpcds,82,593,82,peglib,tree,packrat,1,2,858125,808125
+tpcds,82,593,82,duckdb,tokenize,,1,516,3252,3166
+tpcds,82,593,82,duckdb,recognize,,1,12,163108,157781
+tpcds,82,593,82,duckdb,tree,,1,41,48024,46699
+tpcds,82,593,82,duckdb,ast,,1,30,63143,59011
+tpcds,82,593,82,postgres,tree,libpg_query,1,266,5772,5514
+tpcds,82,593,82,postgres,ast,legacy_parser extension,1,121,14368,14075
+tpcds,83,2197,292,peglib,recognize,no packrat,1,1,7711292,7485209
+tpcds,83,2197,292,peglib,recognize,packrat,1,1,2809791,2755542
+tpcds,83,2197,292,peglib,tree,packrat,1,1,3292416,3175375
+tpcds,83,2197,292,duckdb,tokenize,,1,175,11114,10805
+tpcds,83,2197,292,duckdb,recognize,,1,3,564556,549653
+tpcds,83,2197,292,duckdb,tree,,1,12,171167,164774
+tpcds,83,2197,292,duckdb,ast,,1,8,221823,215229
+tpcds,83,2197,292,postgres,tree,libpg_query,1,87,21073,20611
+tpcds,83,2197,292,postgres,ast,legacy_parser extension,1,41,46835,45843
+tpcds,84,607,83,peglib,recognize,no packrat,1,1,1807708,1748792
+tpcds,84,607,83,peglib,recognize,packrat,1,2,759270,735042
+tpcds,84,607,83,peglib,tree,packrat,1,2,892167,877979
+tpcds,84,607,83,duckdb,tokenize,,1,475,3329,3147
+tpcds,84,607,83,duckdb,recognize,,1,12,166073,162312
+tpcds,84,607,83,duckdb,tree,,1,38,52266,50027
+tpcds,84,607,83,duckdb,ast,,1,30,66318,63604
+tpcds,84,607,83,postgres,tree,libpg_query,1,251,6065,5821
+tpcds,84,607,83,postgres,ast,legacy_parser extension,1,127,13011,12437
+tpcds,85,2168,294,peglib,recognize,no packrat,1,1,6445125,6246709
+tpcds,85,2168,294,peglib,recognize,packrat,1,1,2836417,2673625
+tpcds,85,2168,294,peglib,tree,packrat,1,1,3367083,3211500
+tpcds,85,2168,294,duckdb,tokenize,,1,158,10899,10475
+tpcds,85,2168,294,duckdb,recognize,,1,3,529569,510458
+tpcds,85,2168,294,duckdb,tree,,1,13,156071,152029
+tpcds,85,2168,294,duckdb,ast,,1,10,196717,196025
+tpcds,85,2168,294,postgres,tree,libpg_query,1,84,20421,20106
+tpcds,85,2168,294,postgres,ast,legacy_parser extension,1,38,49427,47885
+tpcds,86,848,130,peglib,recognize,no packrat,1,1,2073667,1913916
+tpcds,86,848,130,peglib,recognize,packrat,1,1,1154417,1099417
+tpcds,86,848,130,peglib,tree,packrat,1,1,1360250,1305041
+tpcds,86,848,130,duckdb,tokenize,,1,363,4971,4608
+tpcds,86,848,130,duckdb,recognize,,1,8,248818,237964
+tpcds,86,848,130,duckdb,tree,,1,28,71805,70275
+tpcds,86,848,130,duckdb,ast,,1,22,91837,87100
+tpcds,86,848,130,postgres,tree,libpg_query,1,186,8715,8278
+tpcds,86,848,130,postgres,ast,legacy_parser extension,1,99,16467,15983
+tpcds,87,1164,130,peglib,recognize,no packrat,1,1,2610875,2512250
+tpcds,87,1164,130,peglib,recognize,packrat,1,2,1053625,1024834
+tpcds,87,1164,130,peglib,tree,packrat,1,1,1290459,1231958
+tpcds,87,1164,130,duckdb,tokenize,,1,259,5818,5686
+tpcds,87,1164,130,duckdb,recognize,,1,9,220167,214005
+tpcds,87,1164,130,duckdb,tree,,1,26,74550,72545
+tpcds,87,1164,130,duckdb,ast,,1,19,96143,94195
+tpcds,87,1164,130,postgres,tree,libpg_query,1,179,9679,9555
+tpcds,87,1164,130,postgres,ast,legacy_parser extension,1,91,19828,18873
+tpcds,88,5660,820,peglib,recognize,no packrat,1,1,18191625,17586125
+tpcds,88,5660,820,peglib,recognize,packrat,1,1,9129500,8224083
+tpcds,88,5660,820,peglib,tree,packrat,1,1,10690125,10205708
+tpcds,88,5660,820,duckdb,tokenize,,1,67,29849,27187
+tpcds,88,5660,820,duckdb,recognize,,1,1,1291500,1240416
+tpcds,88,5660,820,duckdb,tree,,1,5,379392,371183
+tpcds,88,5660,820,duckdb,ast,,1,4,492979,479688
+tpcds,88,5660,820,postgres,tree,libpg_query,1,38,53117,52328
+tpcds,88,5660,820,postgres,ast,legacy_parser extension,1,15,125461,121508
+tpcds,89,968,177,peglib,recognize,no packrat,1,1,4342541,4174292
+tpcds,89,968,177,peglib,recognize,packrat,1,1,1755792,1719750
+tpcds,89,968,177,peglib,tree,packrat,1,1,2052417,2009166
+tpcds,89,968,177,duckdb,tokenize,,1,328,5460,5090
+tpcds,89,968,177,duckdb,recognize,,1,5,390067,379858
+tpcds,89,968,177,duckdb,tree,,1,19,100368,97618
+tpcds,89,968,177,duckdb,ast,,1,13,128410,127061
+tpcds,89,968,177,postgres,tree,libpg_query,1,145,11074,10931
+tpcds,89,968,177,postgres,ast,legacy_parser extension,1,67,25969,25442
+tpcds,90,984,161,peglib,recognize,no packrat,1,1,2599416,2477791
+tpcds,90,984,161,peglib,recognize,packrat,1,1,1272750,1184667
+tpcds,90,984,161,peglib,tree,packrat,1,1,1499750,1447708
+tpcds,90,984,161,duckdb,tokenize,,1,299,5951,5634
+tpcds,90,984,161,duckdb,recognize,,1,7,260649,254464
+tpcds,90,984,161,duckdb,tree,,1,25,79097,78380
+tpcds,90,984,161,duckdb,ast,,1,19,105298,99818
+tpcds,90,984,161,postgres,tree,libpg_query,1,162,10780,10357
+tpcds,90,984,161,postgres,ast,legacy_parser extension,1,72,24872,23410
+tpcds,91,984,112,peglib,recognize,no packrat,1,1,2733375,2556792
+tpcds,91,984,112,peglib,recognize,packrat,1,1,1168167,1109875
+tpcds,91,984,112,peglib,tree,packrat,1,1,1390708,1335084
+tpcds,91,984,112,duckdb,tokenize,,1,345,4859,4505
+tpcds,91,984,112,duckdb,recognize,,1,7,244155,235179
+tpcds,91,984,112,duckdb,tree,,1,24,73854,71589
+tpcds,91,984,112,duckdb,ast,,1,18,97252,94627
+tpcds,91,984,112,postgres,tree,libpg_query,1,135,9004,8776
+tpcds,91,984,112,postgres,ast,legacy_parser extension,1,73,18890,18562
+tpcds,92,557,81,peglib,recognize,no packrat,1,1,1647625,1590375
+tpcds,92,557,81,peglib,recognize,packrat,1,2,760292,714812
+tpcds,92,557,81,peglib,tree,packrat,1,2,870666,851833
+tpcds,92,557,81,duckdb,tokenize,,1,571,2912,2781
+tpcds,92,557,81,duckdb,recognize,,1,12,164656,160615
+tpcds,92,557,81,duckdb,tree,,1,39,51421,48372
+tpcds,92,557,81,duckdb,ast,,1,30,67678,63915
+tpcds,92,557,81,postgres,tree,libpg_query,1,272,5870,5824
+tpcds,92,557,81,postgres,ast,legacy_parser extension,1,129,12938,12615
+tpcds,93,671,83,peglib,recognize,no packrat,1,1,2352334,2215250
+tpcds,93,671,83,peglib,recognize,packrat,1,2,809312,783334
+tpcds,93,671,83,peglib,tree,packrat,1,2,964250,945084
+tpcds,93,671,83,duckdb,tokenize,,1,465,3662,3535
+tpcds,93,671,83,duckdb,recognize,,1,11,183867,176587
+tpcds,93,671,83,duckdb,tree,,1,37,54153,52502
+tpcds,93,671,83,duckdb,ast,,1,29,69764,67276
+tpcds,93,671,83,postgres,tree,libpg_query,1,231,6652,6520
+tpcds,93,671,83,postgres,ast,legacy_parser extension,1,136,11592,10998
+tpcds,94,798,122,peglib,recognize,no packrat,1,1,1859750,1747250
+tpcds,94,798,122,peglib,recognize,packrat,1,2,965104,936542
+tpcds,94,798,122,peglib,tree,packrat,1,1,1170083,1110000
+tpcds,94,798,122,duckdb,tokenize,,1,375,4581,4185
+tpcds,94,798,122,duckdb,recognize,,1,8,217740,208328
+tpcds,94,798,122,duckdb,tree,,1,27,66548,64733
+tpcds,94,798,122,duckdb,ast,,1,23,85051,83444
+tpcds,94,798,122,postgres,tree,libpg_query,1,181,8766,8573
+tpcds,94,798,122,postgres,ast,legacy_parser extension,1,102,15611,15093
+tpcds,95,1012,150,peglib,recognize,no packrat,1,1,2671750,2618209
+tpcds,95,1012,150,peglib,recognize,packrat,1,1,1429750,1194792
+tpcds,95,1012,150,peglib,tree,packrat,1,1,1500500,1401833
+tpcds,95,1012,150,duckdb,tokenize,,1,313,5789,5496
+tpcds,95,1012,150,duckdb,recognize,,1,7,268066,263714
+tpcds,95,1012,150,duckdb,tree,,1,23,84745,82225
+tpcds,95,1012,150,duckdb,ast,,1,18,108928,106690
+tpcds,95,1012,150,postgres,tree,libpg_query,1,152,11112,10883
+tpcds,95,1012,150,postgres,ast,legacy_parser extension,1,89,18853,18121
+tpcds,96,384,63,peglib,recognize,no packrat,1,2,954604,931875
+tpcds,96,384,63,peglib,recognize,packrat,1,4,483896,463052
+tpcds,96,384,63,peglib,tree,packrat,1,3,613444,578000
+tpcds,96,384,63,duckdb,tokenize,,1,786,2245,2164
+tpcds,96,384,63,duckdb,recognize,,1,17,111848,109978
+tpcds,96,384,63,duckdb,tree,,1,57,34483,33582
+tpcds,96,384,63,duckdb,ast,,1,42,45223,43407
+tpcds,96,384,63,postgres,tree,libpg_query,1,374,4393,4206
+tpcds,96,384,63,postgres,ast,legacy_parser extension,1,183,9401,9207
+tpcds,97,1161,165,peglib,recognize,no packrat,1,1,3875959,3795750
+tpcds,97,1161,165,peglib,recognize,packrat,1,1,1324000,1261750
+tpcds,97,1161,165,peglib,tree,packrat,1,1,1556125,1501042
+tpcds,97,1161,165,duckdb,tokenize,,1,260,6670,6293
+tpcds,97,1161,165,duckdb,recognize,,1,7,275113,266161
+tpcds,97,1161,165,duckdb,tree,,1,23,84415,82208
+tpcds,97,1161,165,duckdb,ast,,1,18,109465,103845
+tpcds,97,1161,165,postgres,tree,libpg_query,1,122,11893,11411
+tpcds,97,1161,165,postgres,ast,legacy_parser extension,1,69,23877,22466
+tpcds,98,812,114,peglib,recognize,no packrat,1,1,2452084,2326708
+tpcds,98,812,114,peglib,recognize,packrat,1,1,1088084,992792
+tpcds,98,812,114,peglib,tree,packrat,1,1,1278833,1170500
+tpcds,98,812,114,duckdb,tokenize,,1,369,4206,4022
+tpcds,98,812,114,duckdb,recognize,,1,7,230899,227577
+tpcds,98,812,114,duckdb,tree,,1,28,65027,64585
+tpcds,98,812,114,duckdb,ast,,1,22,86089,83138
+tpcds,98,812,114,postgres,tree,libpg_query,1,171,7948,7776
+tpcds,98,812,114,postgres,ast,legacy_parser extension,1,87,16217,15768
+tpcds,99,1459,205,peglib,recognize,no packrat,1,1,5196708,4746250
+tpcds,99,1459,205,peglib,recognize,packrat,1,1,2048000,1964250
+tpcds,99,1459,205,peglib,tree,packrat,1,1,2325542,2273292
+tpcds,99,1459,205,duckdb,tokenize,,1,210,7694,7526
+tpcds,99,1459,205,duckdb,recognize,,1,4,418802,405823
+tpcds,99,1459,205,duckdb,tree,,1,17,115390,112240
+tpcds,99,1459,205,duckdb,ast,,1,13,153234,146673
+tpcds,99,1459,205,postgres,tree,libpg_query,1,107,13121,12667
+tpcds,99,1459,205,postgres,ast,legacy_parser extension,1,48,31667,30533
+short,01_select_one,10,4,peglib,recognize,no packrat,1,49,35464,34031
+short,01_select_one,10,4,peglib,recognize,packrat,1,67,24908,24495
+short,01_select_one,10,4,peglib,tree,packrat,1,56,29470,28172
+short,01_select_one,10,4,duckdb,tokenize,,1,6849,115,111
+short,01_select_one,10,4,duckdb,recognize,,1,220,8520,8255
+short,01_select_one,10,4,duckdb,tree,,1,827,1941,1889
+short,01_select_one,10,4,duckdb,ast,,1,551,3165,3037
+short,01_select_one,10,4,postgres,tree,libpg_query,1,4357,276,264
+short,01_select_one,10,4,postgres,ast,legacy_parser extension,1,1333,986,968
+short,02_point_lookup,44,10,peglib,recognize,no packrat,1,13,134526,129032
+short,02_point_lookup,44,10,peglib,recognize,packrat,1,23,75772,71913
+short,02_point_lookup,44,10,peglib,tree,packrat,1,18,88273,86433
+short,02_point_lookup,44,10,duckdb,tokenize,,1,2998,386,365
+short,02_point_lookup,44,10,duckdb,recognize,,1,84,22798,21775
+short,02_point_lookup,44,10,duckdb,tree,,1,289,6353,5916
+short,02_point_lookup,44,10,duckdb,ast,,1,213,8859,8429
+short,02_point_lookup,44,10,postgres,tree,libpg_query,1,2000,678,654
+short,02_point_lookup,44,10,postgres,ast,legacy_parser extension,1,857,1680,1598
+short,03_filter_limit,99,18,peglib,recognize,no packrat,1,5,332325,318617
+short,03_filter_limit,99,18,peglib,recognize,packrat,1,10,149088,141179
+short,03_filter_limit,99,18,peglib,tree,packrat,1,9,178546,172505
+short,03_filter_limit,99,18,duckdb,tokenize,,1,1846,683,664
+short,03_filter_limit,99,18,duckdb,recognize,,1,46,41927,39939
+short,03_filter_limit,99,18,duckdb,tree,,1,156,12190,12037
+short,03_filter_limit,99,18,duckdb,ast,,1,117,16362,15702
+short,03_filter_limit,99,18,postgres,tree,libpg_query,1,1021,1213,1188
+short,03_filter_limit,99,18,postgres,ast,legacy_parser extension,1,452,3188,3148
+short,04_insert_values,66,16,peglib,recognize,no packrat,1,22,76269,72703
+short,04_insert_values,66,16,peglib,recognize,packrat,1,24,71526,69873
+short,04_insert_values,66,16,peglib,tree,packrat,1,20,86252,81483
+short,04_insert_values,66,16,duckdb,tokenize,,1,2824,423,391
+short,04_insert_values,66,16,duckdb,recognize,,1,72,21764,20950
+short,04_insert_values,66,16,duckdb,tree,,1,350,4830,4686
+short,04_insert_values,66,16,duckdb,ast,,1,241,7229,6956
+short,04_insert_values,66,16,postgres,tree,libpg_query,1,1600,736,711
+short,04_insert_values,66,16,postgres,ast,legacy_parser extension,1,387,3275,3138
+short,05_update,59,14,peglib,recognize,no packrat,1,15,101564,97794
+short,05_update,59,14,peglib,recognize,packrat,1,19,73327,72491
+short,05_update,59,14,peglib,tree,packrat,1,15,90125,87072
+short,05_update,59,14,duckdb,tokenize,,1,1921,483,472
+short,05_update,59,14,duckdb,recognize,,1,62,23157,22461
+short,05_update,59,14,duckdb,tree,,1,208,6310,6107
+short,05_update,59,14,duckdb,ast,,1,195,8822,8451
+short,05_update,59,14,postgres,tree,libpg_query,1,1170,818,774
+short,05_update,59,14,postgres,ast,legacy_parser extension,1,384,2437,2390
+short,06_join_group,80,28,peglib,recognize,no packrat,1,5,288500,282225
+short,06_join_group,80,28,peglib,recognize,packrat,1,8,171104,165760
+short,06_join_group,80,28,peglib,tree,packrat,1,6,209792,200854
+short,06_join_group,80,28,duckdb,tokenize,,1,1371,843,805
+short,06_join_group,80,28,duckdb,recognize,,1,34,48699,46985
+short,06_join_group,80,28,duckdb,tree,,1,117,14125,13491
+short,06_join_group,80,28,duckdb,ast,,1,78,19453,18601
+short,06_join_group,80,28,postgres,tree,libpg_query,1,705,1715,1621
+short,06_join_group,80,28,postgres,ast,legacy_parser extension,1,290,3454,3356
