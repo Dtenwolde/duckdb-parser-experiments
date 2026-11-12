@@ -41,3 +41,6 @@ paper/comment.cut
 
 # Parser-vs-parser benchmark build output
 experiments/peglib/build/
+
+# Scratch files of scripts/benchmark_parser.sh
+results/work/

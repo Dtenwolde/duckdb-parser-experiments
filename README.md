@@ -26,7 +26,7 @@ duckdb-parser-experiments/
 │   ├── bench_version.sh     # Checkout, build, and benchmark a specific branch/commit
 │   ├── profile_peg.sh       # samply profiling of the worst query
 │   └── plot.html            # Interactive results visualisation
-├── builds/                  # Cached binaries built by bench_version.sh (gitignored)
+├── builds/                  # Worktrees of other DuckDB revisions, built by bench_version.sh (gitignored)
 ├── data/                    # Generated TPC-H/TPC-DS databases (gitignored)
 ├── results/                 # benchmark_results.duckdb, errors.log, plots/
 ├── analysis/                # Plot scripts and ad-hoc SQL queries
@@ -66,13 +66,19 @@ git add duckdb   # record the new pinned commit
 
 ```bash
 cd duckdb
-# Release build (benchmarking)
-DUCKDB_EXTENSIONS="tpch;tpcds;json;autocomplete" make -j$(nproc)
+# Release build (benchmarking), with the PostgreSQL-derived legacy parser as an extension
+GEN=ninja DUCKDB_EXTENSIONS="tpch;tpcds;json" \
+  EXTENSION_CONFIGS=".github/config/extensions/legacy_parser.cmake" make release
 
 # RelWithDebInfo build (profiling with samply — same speed, full symbols)
 DUCKDB_EXTENSIONS="tpch;tpcds;json;autocomplete" BUILD_TYPE=reldebug make -j$(nproc)
 cd ..
 ```
+
+The PEG parser is DuckDB's parser. The PostgreSQL-derived parser it replaced lives in the out-of-tree
+`legacy_parser` extension, which every DuckDB commit pins in `.github/config/extensions/legacy_parser.cmake`;
+the build above fetches and builds it. The benchmark scripts load it and run
+`SET GLOBAL enable_legacy_parser = true` for the `postgres` measurements.
 
 The benchmark script expects `duckdb/build/release/duckdb`; the profiling script
 prefers `duckdb/build/reldebug/duckdb` and falls back to release with a warning.
@@ -90,9 +96,22 @@ DUCKDB=./duckdb/build/release/duckdb SFS="0.1 1" ./scripts/benchmark_parser.sh
 
 # Pin a version label (defaults to the duckdb submodule's git short-hash)
 VERSION=baseline ./scripts/benchmark_parser.sh
+
+# Record the first execution in a fresh process instead of a warmed-up one
+WARMUP=0 ./scripts/benchmark_parser.sh
 ```
 
-Any queries that fail (e.g. unsupported syntax in the PEG parser) are skipped and their errors are written to `results/errors.log`.
+How a measurement is taken: the query text itself is piped into the shell with JSON profiling on, and
+`parser.total_time` and `query.total_time` are read from the profile. By default the query is executed twice in
+the same process and the second execution is recorded (`warmup = true` in the results table). The script ends
+with a summary of parse share per benchmark, scale factor and parser.
+
+Any queries that fail are skipped and their errors are written to `results/errors.log`.
+
+The plots under `results/plots/` are from spring 2026 and were made with an earlier version of this script,
+which executed each query through `FROM query(getvariable(...))`. On current DuckDB that wrapper makes the
+profiler report the parse time of the wrapper and not of the benchmark query, so do not compare those plots
+with new results.
 
 ### 4a. Compare two branches or commits
 
@@ -101,20 +120,22 @@ building it, and running the benchmark — all results land in the same
 `benchmark_results.duckdb`, tagged by version label, so they can be compared directly.
 
 ```bash
-# Benchmark a branch with an explicit label
-./scripts/bench_version.sh main baseline
-./scripts/bench_version.sh my-caching-branch peg-caching
+# Benchmark a branch of upstream DuckDB with an explicit label
+./scripts/bench_version.sh origin/main upstream-main
+
+# A branch in another repository
+REMOTE=git@github.com:Dtenwolde/duckdb.git ./scripts/bench_version.sh parser-performance
 
 # Or use a commit hash (label defaults to the short hash)
 ./scripts/bench_version.sh abc1234
 
 # Env vars are forwarded to benchmark_parser.sh
-SFS="1 10" RUNS=10 ./scripts/bench_version.sh my-caching-branch peg-caching
+SFS="1 10" RUNS=10 ./scripts/bench_version.sh origin/main upstream-main
 ```
 
-The duckdb submodule is restored to its original commit after each run.
-Compiled binaries are cached under `builds/<label>/duckdb`; re-running the
-same label skips the build step.
+Each revision is checked out as a git worktree of the submodule under `builds/duckdb-<label>` and built there
+(incrementally on later runs); the `duckdb` submodule itself is not touched. `experiments/peglib/run.sh` uses
+the same worktrees. Revisions that do not pin the `legacy_parser` extension cannot be compared this way.
 
 Then compare the two versions:
 
