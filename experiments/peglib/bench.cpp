@@ -21,6 +21,9 @@
 #include "duckdb/parser/peg/parser_packrat.hpp"
 #include "duckdb/parser/peg/tokenizer/parser_tokenizer.hpp"
 #include "duckdb/parser/token_iterator.hpp"
+#ifdef DUCKDB_POOLED_RESOURCES
+#include "duckdb/parser/peg/transformer/peg_transformer.hpp"
+#endif
 #endif
 #ifdef LEGACY_PG_QUERY
 // libpg_query as vendored by the duckdb-legacy-parser extension, linked directly for the raw parse-tree level
@@ -80,6 +83,11 @@ struct Options {
 	std::string grammar_path;
 	std::string legacy_extension;
 	std::string out_path;
+	//! Identify the DuckDB build in the output: a label, its commit, and the pass number when runs are interleaved
+	std::string label = "duckdb";
+	std::string commit;
+	int pass = 1;
+	bool append = false;
 	std::vector<std::pair<std::string, std::string>> corpora;
 	int rounds = 7;
 	//! Each timed sample repeats the parse until it lasted at least this long
@@ -117,13 +125,22 @@ static Options ParseArguments(int argc, char **argv) {
 			options.min_sample_ms = std::stod(next());
 		} else if (arg == "--out") {
 			options.out_path = next();
+		} else if (arg == "--label") {
+			options.label = next();
+		} else if (arg == "--commit") {
+			options.commit = next();
+		} else if (arg == "--pass") {
+			options.pass = std::stoi(next());
+		} else if (arg == "--append") {
+			options.append = true;
 		} else {
 			throw std::runtime_error("unknown argument " + arg);
 		}
 	}
 	if (options.grammar_path.empty() || options.corpora.empty()) {
 		throw std::runtime_error("usage: bench --grammar duckdb.peg --corpus name=path [--corpus ...] "
-		                         "[--legacy-extension path] [--rounds N] [--min-sample-ms X] [--out file.csv]");
+		                         "[--legacy-extension path] [--rounds N] [--min-sample-ms X] [--out file.csv] "
+		                         "[--label name] [--commit hash] [--pass N] [--append]");
 	}
 	return options;
 }
@@ -193,20 +210,81 @@ static bool DuckDBParse(duckdb::ClientContext &context, const std::string &sql) 
 
 #ifdef DUCKDB_PARSER_PHASES
 static size_t DuckDBTokenize(const duckdb::CompiledGrammar &grammar, const std::string &sql) {
+#ifdef DUCKDB_BEHAVIOR_OWNS_TOKENS
+	// newer revisions: the tokenizer behavior owns the token vector
+	duckdb::ParserTokenizerBehavior behavior(sql);
+	grammar.GetTokenizer().TokenizeInput(behavior);
+	return duckdb::TokenIterator(behavior).Size();
+#else
 	duckdb::vector<duckdb::MatcherToken> tokens;
 	duckdb::ParserTokenizerBehavior behavior(sql, tokens);
 	grammar.GetTokenizer().TokenizeInput(behavior);
 	return tokens.size();
+#endif
 }
 
+#ifdef DUCKDB_POOLED_RESOURCES
+//! Tokenizer + matcher, without the transformer, for DuckDB revisions that pool statement resources per grammar;
+//! mirrors Parser::ParseQuery and MatchTopLevelStatement in peg_transformer_factory.cpp
+static bool DuckDBMatch(duckdb::CompiledGrammar &grammar, const std::string &sql, duckdb::MatchMode mode) {
+	using namespace duckdb;
+	struct Pooled {
+		explicit Pooled(CompiledGrammar &grammar_p) : grammar(grammar_p), resources(grammar_p.AcquireStatementResources()) {
+		}
+		~Pooled() {
+			grammar.ReleaseStatementResources(std::move(resources));
+		}
+		CompiledGrammar &grammar;
+		unique_ptr<PEGStatementResources> resources;
+	};
+	try {
+		Pooled pooled(grammar);
+		auto &resources = *pooled.resources;
+		auto owned_tokens = std::move(resources.tokens);
+		if (!owned_tokens) {
+			owned_tokens = make_uniq<vector<MatcherToken>>();
+		}
+		owned_tokens->clear();
+		owned_tokens->reserve(sql.size() / 8 + 16);
+		ParserTokenizerBehavior behavior(sql, *owned_tokens);
+		grammar.GetTokenizer().TokenizeInput(behavior);
+		TokenIterator token_iterator(std::move(owned_tokens));
+		bool success = true;
+		while (success && token_iterator.Current()) {
+			resources.Reset();
+			idx_t max_token_index = token_iterator.Position();
+			ParserPackratCache packrat_cache(resources.packrat_allocator, token_iterator.Position(),
+			                                 token_iterator.Size());
+			MatchContext match_context(resources.suggestions, resources.parse_results, resources.process_allocator,
+			                           max_token_index, mode, IdentifierCaseMode::PRESERVE_CASE, &packrat_cache);
+			match_context.sequence_checks = grammar.GetSequenceChecks();
+			MatchState state(token_iterator, match_context);
+			auto match_result = grammar.TopLevelStatementMatcher().MatchParseResult(state, resources.match_stack);
+			resources.process_allocator.Reset();
+			success = match_result.IsSuccess();
+			token_iterator.SetPosition(state.token_iterator);
+		}
+		resources.tokens = token_iterator.ReleaseTokens();
+		return success;
+	} catch (std::exception &) {
+		return false;
+	}
+}
+#else
 //! Tokenizer + matcher, without the transformer; mirrors PEGTransformerFactory::TransformTopLevelStatement
-static bool DuckDBMatch(const duckdb::CompiledGrammar &grammar, const std::string &sql, duckdb::MatchMode mode) {
+static bool DuckDBMatch(duckdb::CompiledGrammar &grammar, const std::string &sql, duckdb::MatchMode mode) {
 	using namespace duckdb;
 	try {
+#ifdef DUCKDB_BEHAVIOR_OWNS_TOKENS
+		ParserTokenizerBehavior behavior(sql);
+		grammar.GetTokenizer().TokenizeInput(behavior);
+		TokenIterator token_iterator(behavior);
+#else
 		auto owned_tokens = make_uniq<vector<MatcherToken>>();
 		ParserTokenizerBehavior behavior(sql, *owned_tokens);
 		grammar.GetTokenizer().TokenizeInput(behavior);
 		TokenIterator token_iterator(std::move(owned_tokens));
+#endif
 		while (token_iterator.Current()) {
 			vector<MatcherSuggestion> suggestions;
 			ParseResultAllocator parse_result_allocator;
@@ -228,6 +306,7 @@ static bool DuckDBMatch(const duckdb::CompiledGrammar &grammar, const std::strin
 		return false;
 	}
 }
+#endif
 #endif
 
 //! Load the legacy_parser extension and make it the parser of this database (the setting is database-wide,
@@ -256,11 +335,16 @@ int main(int argc, char **argv) {
 		auto inputs = LoadCorpora(options);
 		auto peg_grammar = ReadFile(options.grammar_path);
 
-		FILE *out = options.out_path.empty() ? stdout : fopen(options.out_path.c_str(), "w");
+		bool write_header = !options.append || options.out_path.empty() || !fs::exists(options.out_path);
+		FILE *out = options.out_path.empty() ? stdout : fopen(options.out_path.c_str(), options.append ? "a" : "w");
 		if (!out) {
 			throw std::runtime_error("cannot write " + options.out_path);
 		}
-		fprintf(out, "corpus,input,bytes,tokens,engine,level,config,accepted,repetitions,median_ns,min_ns\n");
+		if (write_header) {
+			fprintf(out, "duckdb,commit,pass,corpus,input,bytes,tokens,engine,level,config,accepted,repetitions,"
+			             "median_ns,min_ns\n");
+		}
+		auto prefix = options.label + "," + options.commit + "," + std::to_string(options.pass) + ",";
 
 		//===--------------------------------------------------------------------===//
 		// Grammar construction (what a grammar change costs at load time)
@@ -272,8 +356,8 @@ int main(int argc, char **argv) {
 				auto parser = LoadPeglib(peg_grammar, false, false);
 				samples.push_back(ElapsedNs(start));
 			}
-			fprintf(out, "__grammar__,construct,%zu,0,peglib,grammar,text to parser,1,1,%.0f,%.0f\n",
-			        peg_grammar.size(), Median(samples), *std::min_element(samples.begin(), samples.end()));
+			fprintf(out, "%s__grammar__,construct,%zu,0,peglib,grammar,text to parser,1,1,%.0f,%.0f\n",
+			        prefix.c_str(), peg_grammar.size(), Median(samples), *std::min_element(samples.begin(), samples.end()));
 		}
 #ifdef DUCKDB_PARSER_PHASES
 		{
@@ -283,8 +367,8 @@ int main(int argc, char **argv) {
 				auto grammar = duckdb::CompiledGrammar::Create();
 				samples.push_back(ElapsedNs(start));
 			}
-			fprintf(out, "__grammar__,construct,0,0,duckdb,grammar,CompiledGrammar::Create,1,1,%.0f,%.0f\n",
-			        Median(samples), *std::min_element(samples.begin(), samples.end()));
+			fprintf(out, "%s__grammar__,construct,0,0,duckdb,grammar,CompiledGrammar::Create,1,1,%.0f,%.0f\n",
+			        prefix.c_str(), Median(samples), *std::min_element(samples.begin(), samples.end()));
 		}
 #endif
 
@@ -387,7 +471,7 @@ int main(int argc, char **argv) {
 		for (size_t i = 0; i < inputs.size(); i++) {
 			for (size_t v = 0; v < variants.size(); v++) {
 				auto &m = results[i][v];
-				fprintf(out, "%s,%s,%zu,%zu,%s,%s,%s,%d,%d,%.0f,%.0f\n", inputs[i].corpus.c_str(),
+				fprintf(out, "%s%s,%s,%zu,%zu,%s,%s,%s,%d,%d,%.0f,%.0f\n", prefix.c_str(), inputs[i].corpus.c_str(),
 				        inputs[i].name.c_str(), inputs[i].sql.size(), inputs[i].tokens, variants[v].engine.c_str(),
 				        variants[v].level.c_str(), variants[v].config.c_str(), m.accepted ? 1 : 0, m.repetitions,
 				        Median(m.samples_ns), *std::min_element(m.samples_ns.begin(), m.samples_ns.end()));

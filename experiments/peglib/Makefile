@@ -1,14 +1,15 @@
 # Builds the in-process parser benchmark against the DuckDB submodule's release build.
-#   make                 build bench and generate duckdb.peg
+#   make                 build bench and generate duckdb.peg for the duckdb submodule
+#   make DUCKDB=<source tree> BUILD=build/<label>   the same for another DuckDB checkout (see run.sh)
 #   make PHASES=0        only use DuckDB's public Parser entry point (if internal parser headers moved)
 #   make LEGACY=0        build without the libpg_query parse-tree variant
 ROOT := $(abspath ../..)
-DUCKDB := $(ROOT)/duckdb
+DUCKDB ?= $(ROOT)/duckdb
 DUCKDB_BUILD ?= $(DUCKDB)/build/release
 PEGLIB := $(ROOT)/third_party/cpp-peglib
 LEGACY_SRC := $(DUCKDB)/extension/external/legacy_parser
 LEGACY_LIB := $(DUCKDB_BUILD)/extension/legacy_parser/third_party/libpg_query/libduckdb_pg_query.a
-BUILD := build
+BUILD ?= build/main
 
 PHASES ?= 1
 LEGACY ?= $(if $(wildcard $(LEGACY_LIB)),1,0)
@@ -20,6 +21,14 @@ LDFLAGS := -L$(DUCKDB_BUILD)/src -lduckdb -Wl,-rpath,$(DUCKDB_BUILD)/src
 
 ifeq ($(PHASES),1)
 CXXFLAGS += -DDUCKDB_PARSER_PHASES
+# revisions that pool per-statement parser storage in the compiled grammar need a different matcher call
+ifneq ($(shell grep -l "AcquireStatementResources" $(DUCKDB)/src/include/duckdb/parser/peg/compiled_grammar.hpp 2>/dev/null),)
+CXXFLAGS += -DDUCKDB_POOLED_RESOURCES
+endif
+# revisions whose tokenizer behavior owns the token vector
+ifneq ($(shell grep -l "explicit ParserTokenizerBehavior(const string &sql);" $(DUCKDB)/src/include/duckdb/parser/peg/tokenizer/parser_tokenizer.hpp 2>/dev/null),)
+CXXFLAGS += -DDUCKDB_BEHAVIOR_OWNS_TOKENS
+endif
 endif
 ifeq ($(LEGACY),1)
 CXXFLAGS += -DLEGACY_PG_QUERY -I$(LEGACY_SRC)/third_party/libpg_query/include

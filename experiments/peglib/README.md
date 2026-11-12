@@ -3,15 +3,21 @@
 Question: on the same grammar and the same queries, how does DuckDB's PEG parser compare with a general-purpose
 PEG library (cpp-peglib, the engine of the CIDR 2025 prototype) and with the PostgreSQL-derived parser it replaced?
 
-Run with `./run.sh`. Everything is generated from the checked-out `duckdb` submodule, so the benchmark follows a
-moving DuckDB commit; results are written to `results/duckdb-<commit>.csv`.
+Run with `./run.sh`. Everything is generated from the DuckDB source trees it is pointed at, so the benchmark follows
+a moving DuckDB commit; results are written to `results/<date>.csv`.
+
+Several DuckDB builds can be compared in one run: the `duckdb` submodule (`main`) and every worktree under
+`builds/duckdb-<label>` that has a release build, or the list in `DUCKDB_VARIANTS`. The header of `run.sh` shows how
+to add a branch as a worktree. Each build gets its own bench binary, because two libduckdb cannot share a process;
+the binaries run in alternating passes, and cpp-peglib and the PostgreSQL parser, which are measured in every
+binary, show how comparable the passes were.
 
 ## What is compared
 
 | Engine | What runs | Grammar |
 |---|---|---|
 | `peglib` | cpp-peglib (pinned submodule `third_party/cpp-peglib`), scannerless | DuckDB's `.gram` rules, translated by `gram2peglib.py` |
-| `duckdb` | DuckDB's tokenizer, matcher and transformer, from `duckdb/build/release/src/libduckdb.dylib` | `inlined_grammar.gram` as shipped |
+| `duckdb` | DuckDB's tokenizer, matcher and transformer, from `<source tree>/build/release/src/libduckdb.dylib` | `inlined_grammar.gram` as shipped |
 | `postgres` | libpg_query (flex + bison) as vendored by the `legacy_parser` extension that the DuckDB commit pins | PostgreSQL-derived yacc grammar |
 
 The engines do not produce the same thing, so variants are grouped by output level and only compared within a level:
@@ -37,7 +43,7 @@ so it is not DuckDB's fastest way to answer accept/reject.
 - **Same build settings.** The harness is compiled with `-O3 -DNDEBUG`, as DuckDB's release build is, with the
   same compiler; libduckdb and libpg_query come from the same DuckDB build tree and commit. `run.sh` refuses to run
   if the build was made from a different commit than the submodule is on.
-- **Interleaved rounds, medians.** Every input and variant is warmed up and checked for acceptance, then measured in
+- **Interleaved rounds and passes, medians.** Every input and variant is warmed up and checked for acceptance, then measured in
   7 rounds (default) that cycle through all variants; a sample repeats the parse until it lasted at least 2 ms. The
   CSV has the median and the minimum per (input, variant).
 - **Grammar construction is separate.** Text-to-ready-parser time is reported once per engine and never included in
@@ -79,49 +85,92 @@ operator character. None of these occur in the corpora, and all engines agree on
 
 ## Results
 
-Apple M5 Pro, macOS 26.7, 2026-11-12, DuckDB `d71c926f43` (moving; performance work is ongoing), cpp-peglib v1.9.1,
-legacy_parser `bcdf276`. Totals over all inputs of a corpus, median of 7 rounds.
+Apple M5 Pro, macOS 26.7, 2026-11-12, cpp-peglib v1.9.1, legacy_parser as pinned by each DuckDB commit. Totals over
+all inputs of a corpus; per input the median of 3 alternating passes of 7 rounds each. These are provisional: the
+evaluation commit is not pinned yet. Raw data: `results/2026-11-12.csv`.
 
-| corpus | engine | output | config | accepted | total ms | ns/token | vs DuckDB PEG |
-|---|---|---|---|---|---|---|---|
-| tpch | peglib | recognize | no packrat | 22/22 | 32.137 | 16182 | 26.53x |
-| tpch | peglib | recognize | packrat | 22/22 | 14.310 | 7205 | 11.81x |
-| tpch | peglib | tree | packrat | 22/22 | 17.806 | 8966 | 14.70x |
-| tpch | duckdb | tokenize |  | 22/22 | 0.074 | 37 |  |
-| tpch | duckdb | recognize |  | 22/22 | 4.108 | 2069 | 3.39x |
-| tpch | duckdb | tree |  | 22/22 | 1.212 | 610 | 1.00x |
-| tpch | duckdb | ast |  | 22/22 | 1.579 | 795 | 1.00x |
-| tpch | postgres | tree | libpg_query | 22/22 | 0.138 | 70 | 0.11x |
-| tpch | postgres | ast | legacy_parser extension | 22/22 | 0.298 | 150 | 0.19x |
-| tpcds | peglib | recognize | no packrat | 99/99 | 567.533 | 23797 | 41.77x |
-| tpcds | peglib | recognize | packrat | 99/99 | 204.276 | 8565 | 15.03x |
-| tpcds | peglib | tree | packrat | 99/99 | 245.772 | 10305 | 18.09x |
-| tpcds | duckdb | tokenize |  | 99/99 | 0.930 | 39 |  |
-| tpcds | duckdb | recognize |  | 99/99 | 46.837 | 1964 | 3.45x |
-| tpcds | duckdb | tree |  | 99/99 | 13.588 | 570 | 1.00x |
-| tpcds | duckdb | ast |  | 99/99 | 17.416 | 730 | 1.00x |
-| tpcds | postgres | tree | libpg_query | 99/99 | 1.736 | 73 | 0.13x |
-| tpcds | postgres | ast | legacy_parser extension | 99/99 | 3.628 | 152 | 0.21x |
-| short | peglib | recognize | no packrat | 6/6 | 0.859 | 9550 | 18.41x |
-| short | peglib | recognize | packrat | 6/6 | 0.481 | 5341 | 10.29x |
-| short | peglib | tree | packrat | 6/6 | 0.603 | 6703 | 12.92x |
-| short | duckdb | tokenize |  | 6/6 | 0.003 | 32 |  |
-| short | duckdb | recognize |  | 6/6 | 0.171 | 1898 | 3.66x |
-| short | duckdb | tree |  | 6/6 | 0.047 | 519 | 1.00x |
-| short | duckdb | ast |  | 6/6 | 0.065 | 719 | 1.00x |
-| short | postgres | tree | libpg_query | 6/6 | 0.005 | 61 | 0.12x |
-| short | postgres | ast | legacy_parser extension | 6/6 | 0.015 | 168 | 0.23x |
-| (grammar) | peglib | construction | text to parser |  | 58.393 |  |  |
-| (grammar) | duckdb | construction | CompiledGrammar::Create |  | 1.983 |  |  |
+Three DuckDB builds:
+
+- `main`: the `duckdb` submodule, upstream main of 2026-10-23 (`d71c926`).
+- `upstream-main`: upstream main of 2026-11-12 (`b4ce456`).
+- `parser-performance`: branch `parser-performance` of Dtenwolde/duckdb (`977e23c`, 65 commits on upstream main of
+  2026-10-22), plus `patches/parser-performance-977e23c-macos-build.patch`, without which it does not compile on
+  macOS.
+
+DuckDB builds: main = d71c926f43, upstream-main = b4ce456542, parser-performance = 977e23c3fc+local
+
+| corpus | engine | build | output | config | accepted | total ms | ns/token | vs DuckDB PEG (main) |
+|---|---|---|---|---|---|---|---|---|
+| (grammar) | peglib | all | construction | text to parser |  | 62.333 |  |  |
+| (grammar) | duckdb | main | construction | CompiledGrammar::Create |  | 2.194 |  |  |
+| (grammar) | duckdb | upstream-main | construction | CompiledGrammar::Create |  | 2.286 |  |  |
+| (grammar) | duckdb | parser-performance | construction | CompiledGrammar::Create |  | 4.401 |  |  |
+| tpch | peglib | all | recognize | no packrat | 22/22 | 33.886 | 17062 | 27.38x |
+| tpch | peglib | all | recognize | packrat | 22/22 | 14.978 | 7542 | 12.10x |
+| tpch | peglib | all | tree | packrat | 22/22 | 18.640 | 9386 | 15.06x |
+| tpch | duckdb | main | tokenize |  | 22/22 | 0.079 | 40 |  |
+| tpch | duckdb | upstream-main | tokenize |  | 22/22 | 0.078 | 39 |  |
+| tpch | duckdb | parser-performance | tokenize |  | 22/22 | 0.047 | 24 |  |
+| tpch | duckdb | main | recognize |  | 22/22 | 4.265 | 2147 | 3.45x |
+| tpch | duckdb | upstream-main | recognize |  | 22/22 | 5.336 | 2687 | 4.31x |
+| tpch | duckdb | parser-performance | recognize |  | 22/22 | 4.496 | 2264 | 3.63x |
+| tpch | duckdb | main | tree |  | 22/22 | 1.238 | 623 | 1.00x |
+| tpch | duckdb | upstream-main | tree |  | 22/22 | 0.990 | 498 | 0.80x |
+| tpch | duckdb | parser-performance | tree |  | 22/22 | 0.338 | 170 | 0.27x |
+| tpch | duckdb | main | ast |  | 22/22 | 1.616 | 814 | 1.00x |
+| tpch | duckdb | upstream-main | ast |  | 22/22 | 1.362 | 686 | 0.84x |
+| tpch | duckdb | parser-performance | ast |  | 22/22 | 0.509 | 256 | 0.31x |
+| tpch | postgres | all | tree | libpg_query | 22/22 | 0.148 | 75 | 0.12x |
+| tpch | postgres | all | ast | legacy_parser extension | 22/22 | 0.309 | 155 | 0.19x |
+| tpcds | peglib | all | recognize | no packrat | 99/99 | 588.051 | 24657 | 42.66x |
+| tpcds | peglib | all | recognize | packrat | 99/99 | 211.728 | 8878 | 15.36x |
+| tpcds | peglib | all | tree | packrat | 99/99 | 253.458 | 10628 | 18.39x |
+| tpcds | duckdb | main | tokenize |  | 99/99 | 0.966 | 41 |  |
+| tpcds | duckdb | upstream-main | tokenize |  | 99/99 | 0.954 | 40 |  |
+| tpcds | duckdb | parser-performance | tokenize |  | 99/99 | 0.566 | 24 |  |
+| tpcds | duckdb | main | recognize |  | 99/99 | 48.215 | 2022 | 3.50x |
+| tpcds | duckdb | upstream-main | recognize |  | 99/99 | 59.538 | 2496 | 4.32x |
+| tpcds | duckdb | parser-performance | recognize |  | 99/99 | 50.298 | 2109 | 3.65x |
+| tpcds | duckdb | main | tree |  | 99/99 | 13.786 | 578 | 1.00x |
+| tpcds | duckdb | upstream-main | tree |  | 99/99 | 11.017 | 462 | 0.80x |
+| tpcds | duckdb | parser-performance | tree |  | 99/99 | 3.809 | 160 | 0.28x |
+| tpcds | duckdb | main | ast |  | 99/99 | 17.789 | 746 | 1.00x |
+| tpcds | duckdb | upstream-main | ast |  | 99/99 | 14.917 | 625 | 0.84x |
+| tpcds | duckdb | parser-performance | ast |  | 99/99 | 5.550 | 233 | 0.31x |
+| tpcds | postgres | all | tree | libpg_query | 99/99 | 1.853 | 78 | 0.13x |
+| tpcds | postgres | all | ast | legacy_parser extension | 99/99 | 3.759 | 158 | 0.21x |
+| short | peglib | all | recognize | no packrat | 6/6 | 0.898 | 9975 | 18.73x |
+| short | peglib | all | recognize | packrat | 6/6 | 0.505 | 5615 | 10.54x |
+| short | peglib | all | tree | packrat | 6/6 | 0.626 | 6961 | 13.07x |
+| short | duckdb | main | tokenize |  | 6/6 | 0.003 | 34 |  |
+| short | duckdb | upstream-main | tokenize |  | 6/6 | 0.003 | 35 |  |
+| short | duckdb | parser-performance | tokenize |  | 6/6 | 0.002 | 23 |  |
+| short | duckdb | main | recognize |  | 6/6 | 0.175 | 1945 | 3.65x |
+| short | duckdb | upstream-main | recognize |  | 6/6 | 0.218 | 2425 | 4.55x |
+| short | duckdb | parser-performance | recognize |  | 6/6 | 0.181 | 2013 | 3.78x |
+| short | duckdb | main | tree |  | 6/6 | 0.048 | 533 | 1.00x |
+| short | duckdb | upstream-main | tree |  | 6/6 | 0.037 | 406 | 0.76x |
+| short | duckdb | parser-performance | tree |  | 6/6 | 0.015 | 170 | 0.32x |
+| short | duckdb | main | ast |  | 6/6 | 0.066 | 739 | 1.00x |
+| short | duckdb | upstream-main | ast |  | 6/6 | 0.055 | 609 | 0.82x |
+| short | duckdb | parser-performance | ast |  | 6/6 | 0.024 | 265 | 0.36x |
+| short | postgres | all | tree | libpg_query | 6/6 | 0.006 | 65 | 0.12x |
+| short | postgres | all | ast | legacy_parser extension | 6/6 | 0.015 | 170 | 0.23x |
+
+Anchor check: cpp-peglib and PostgreSQL totals differ by at most 7.6% between the bench binaries (tpch postgres ast legacy_parser extension).
 
 Reading:
 
-- **Against cpp-peglib**, on the same grammar, DuckDB's PEG parser builds its parse tree 13-18x faster and constructs
-  the grammar 29x faster (2.0 ms against 58 ms). Packrat memoisation halves cpp-peglib's time and it is still more
-  than an order of magnitude behind.
-- **Against the PostgreSQL parser**, DuckDB's PEG parser is 4-5x slower to a DuckDB AST and 8-9x slower to a
-  parse tree. This is the price of the runtime-extensible design at this commit.
-- The ratios hold from short statements to TPC-DS: time per token varies by less than 1.6x within each engine.
+- **parser-performance** produces a DuckDB AST 3.2x faster than the pinned main commit and 2.7x faster than current
+  upstream main on TPC-H and TPC-DS (2.8x and 2.3x on the short statements); the parse tree alone is 3.6x faster. Its tokenizer is 1.7x faster. Grammar construction doubles
+  (4.4 ms against 2.2 ms), and the `recognize` mode does not benefit.
+- **Against the PostgreSQL parser**, the branch is 1.5-1.7x slower to a DuckDB AST (main: 4.4-5.2x) and 2.1-2.5x
+  slower to a parse tree (main: 7.4-8.4x).
+- **Against cpp-peglib** on the same grammar, DuckDB's parse tree is 13-18x faster on main and 42-67x faster on the
+  branch; grammar construction is 14-28x faster.
+- Upstream main has become 16-18% faster to an AST since the pinned commit, independently of the branch.
+- cpp-peglib and the PostgreSQL parser are measured in all three bench binaries; their totals differ by at most
+  7.6% between binaries, so differences between DuckDB builds below that are not meaningful.
 
 ## Where the cpp-peglib gap comes from
 
@@ -143,7 +192,9 @@ earlier DuckDB commit counted about 5 matcher steps per token; that figure has n
 ## Files
 
 - `gram2peglib.py`: grammar translation; `build/duckdb.peg` is the result.
-- `bench.cpp`: the harness. The tokenizer/matcher variants use DuckDB-internal headers (`-DDUCKDB_PARSER_PHASES`);
-  if those move, `make PHASES=0` keeps the public `Parser` entry point only.
+- `bench.cpp`: the harness. The tokenizer/matcher variants use DuckDB-internal headers (`-DDUCKDB_PARSER_PHASES`).
+  Three shapes of that internal API are supported so far and the Makefile picks one by looking at the headers; if
+  they move again, `make PHASES=0` keeps the public `Parser` entry point only.
+- `patches/`: local changes a build needed, applied in its worktree and never committed to the branch.
 - `report.py`: summary table from a result CSV (`--markdown` for the table above).
 - `corpora/short/`: six short statements; TPC-H and TPC-DS come from the `duckdb` submodule.
