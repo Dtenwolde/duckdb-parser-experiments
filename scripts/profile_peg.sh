@@ -99,8 +99,16 @@ log "Duration:   ${DURATION}s"
 log "Approx latency per run: ${LATENCY_MS} ms  (PEG overhead: ${OVERHEAD_PCT}%)"
 log "Starting samply..."
 
-{
-  echo "CALL enable_peg_parser();"
-  echo "SET VARIABLE bench_query = (SELECT query FROM ${QUERY_FN}() WHERE query_nr = ${QUERY_NR});"
-  yes "FROM query(getvariable('bench_query'));"
-} | samply record timeout "${DURATION}s" "$DUCKDB" -unsigned "$BENCH_DB" > /dev/null
+# The PEG parser is DuckDB's parser, so there is nothing to switch on. The query text itself is repeated on
+# stdin: wrapping it in FROM query(getvariable(...)) would move its parsing into the binder of the wrapper.
+QUERY_SQL="$(mktemp -t profile_peg_query)"
+trap 'rm -f "$QUERY_SQL"' EXIT
+"$DUCKDB" -no-agent -unsigned -noheader -list -c \
+  "SELECT rtrim(trim(query, E' \n\t'), ';') || ';' FROM ${QUERY_FN}() WHERE query_nr = ${QUERY_NR};" > "$QUERY_SQL"
+[[ -s "$QUERY_SQL" ]] || {
+  echo "ERROR: could not extract ${BENCHMARK} Q${QUERY_NR}" >&2
+  exit 1
+}
+
+yes "$(cat "$QUERY_SQL")" |
+  samply record timeout "${DURATION}s" "$DUCKDB" -no-agent -unsigned -readonly "$BENCH_DB" > /dev/null
