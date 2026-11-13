@@ -24,7 +24,8 @@ terminal overrides) used by DuckPGQ; DialectExtension API
 \texttt{SET current\_dialect}, \texttt{SET active\_grammar\_extensions};
 statement-scoped grammar changes as open problem (SaneQL \texttt{defun}).}
 
-\subsection{Equivalence Gate}
-\todo{Differential testing against libpg\_query: \num{90k} statement fingerprints +
+\subsection{Differential Testing for Parity}
+\todo{Parity with the old parser was a key requirement before making the switch, and the
+measure of progress during the project. Differential testing against libpg\_query: \num{90k} statement fingerprints +
 \num{10k} synthetic matcher graphs; how it caught ordered-choice ordering bugs that
 yacc would have reported as conflicts.}
