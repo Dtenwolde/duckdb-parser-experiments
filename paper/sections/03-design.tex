@@ -26,6 +26,9 @@ statement-scoped grammar changes as open problem (SaneQL \texttt{defun}).}
 
 \subsection{Differential Testing for Parity}
 \todo{Parity with the old parser was a key requirement before making the switch, and the
-measure of progress during the project. Differential testing against libpg\_query: \num{90k} statement fingerprints +
+measure of progress during the project. At the switch all unit tests produced equivalent results
+with both parsers; a few minor known differences remain and the intent is exact parity (state the
+count of tests, what ``equivalent'' compares, and the list of differences on the evaluation commit).
+Differential testing against libpg\_query: \num{90k} statement fingerprints +
 \num{10k} synthetic matcher graphs; how it caught ordered-choice ordering bugs that
 yacc would have reported as conflicts.}
